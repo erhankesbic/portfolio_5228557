@@ -15,11 +15,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String name = '';
   String email = '';
+  double sliderValue = 50.0;
 
   void updateProfile(String newName, String newEmail) {
     setState(() {
       name = newName;
       email = newEmail;
+    });
+  }
+
+  void updateSliderValue(double newValue) {
+    setState(() {
+      sliderValue = newValue;
     });
   }
 
@@ -33,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              name.isNotEmpty ? 'Willkommen, $name' : 'Willkommen im Portfolio von Erhan',
+              name.isNotEmpty ? 'Willkommen, $name' : 'Willkommen im Portfolio',
               style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
@@ -56,8 +63,16 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Profilseite'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SliderPage()));
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SliderPage(initialValue: sliderValue),
+                  ),
+                );
+                if (result is double) {
+                  updateSliderValue(result);
+                }
               },
               child: const Text('Slider-Seite'),
             ),
@@ -72,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                 final userData = UserData(
                   name: name,
                   email: email,
-                  sliderValue: 42.0,
+                  sliderValue: sliderValue,
                   newsletter: true,
                   darkMode: true,
                 );

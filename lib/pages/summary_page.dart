@@ -39,6 +39,8 @@ class SummaryPage extends StatelessWidget {
             ),
             Text('Newsletter: ${data.newsletter ? "Abonniert" : "Nicht abonniert"}'),
             Text('Dunkler Modus: ${data.darkMode ? "Aktiviert" : "Deaktiviert"}'),
+            Text('Benachrichtigungen: ${data.notifications ? "Aktiviert" : "Deaktiviert"}'),
+            Text('Offline-Modus: ${data.offlineMode ? "Aktiviert" : "Deaktiviert"}'),
           ],
         ),
       ),

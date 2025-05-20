@@ -16,6 +16,10 @@ class _HomePageState extends State<HomePage> {
   String name = '';
   String email = '';
   double sliderValue = 50.0;
+  bool newsletter = false;
+  bool darkMode = false;
+  bool notifications = false;
+  bool offlineMode = false;
 
   void updateProfile(String newName, String newEmail) {
     setState(() {
@@ -27,6 +31,20 @@ class _HomePageState extends State<HomePage> {
   void updateSliderValue(double newValue) {
     setState(() {
       sliderValue = newValue;
+    });
+  }
+
+  void updateSettings({
+    required bool newsletter,
+    required bool darkMode,
+    required bool notifications,
+    required bool offlineMode,
+  }) {
+    setState(() {
+      this.newsletter = newsletter;
+      this.darkMode = darkMode;
+      this.notifications = notifications;
+      this.offlineMode = offlineMode;
     });
   }
 
@@ -77,8 +95,26 @@ class _HomePageState extends State<HomePage> {
               child: const Text('Slider-Seite'),
             ),
             ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SettingsPage(
+                      initialNewsletter: newsletter,
+                      initialDarkMode: darkMode,
+                      initialNotifications: notifications,
+                      initialOfflineMode: offlineMode,
+                    ),
+                  ),
+                );
+                if (result is Map) {
+                  updateSettings(
+                    newsletter: result['newsletter'] ?? false,
+                    darkMode: result['darkMode'] ?? false,
+                    notifications: result['notifications'] ?? false,
+                    offlineMode: result['offlineMode'] ?? false,
+                  );
+                }
               },
               child: const Text('Einstellungen'),
             ),
@@ -88,8 +124,10 @@ class _HomePageState extends State<HomePage> {
                   name: name,
                   email: email,
                   sliderValue: sliderValue,
-                  newsletter: true,
-                  darkMode: true,
+                  newsletter: newsletter,
+                  darkMode: darkMode,
+                  notifications: notifications,
+                  offlineMode: offlineMode,
                 );
                 Navigator.push(
                   context,

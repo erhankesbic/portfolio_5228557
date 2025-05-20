@@ -5,6 +5,8 @@ class UserData {
   double sliderValue;
   bool newsletter;
   bool darkMode;
+  bool notifications;
+  bool offlineMode;
 
   UserData({
     this.name = '',
@@ -13,5 +15,7 @@ class UserData {
     this.sliderValue = 0,
     this.newsletter = false,
     this.darkMode = false,
+    this.notifications = false,
+    this.offlineMode = false,
   });
 }

@@ -36,41 +36,72 @@ class _SliderPageState extends State<SliderPage> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Wert: ${_sliderValue.toInt()}',
-                style: const TextStyle(fontSize: 20),
-              ),
-              Slider(
-                min: 0,
-                max: 100,
-                value: _sliderValue,
-                onChanged: (value) {
-                  setState(() {
-                    _sliderValue = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: 200,
-                height: 200,
-                color: Color.lerp(
-                  Colors.blue,
-                  Colors.red,
-                  _sliderValue / 100,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Card(
+                elevation: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Wähle einen Wert',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Wert: ${_sliderValue.toInt()}',
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                      ),
+                      Slider(
+                        min: 0,
+                        max: 100,
+                        divisions: 100,
+                        value: _sliderValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _sliderValue = value.roundToDouble();
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 32),
+                      Container(
+                        width: 160,
+                        height: 160,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          color: Color.lerp(
+                            Colors.blue,
+                            Colors.red,
+                            _sliderValue / 100,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Farbfeld',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 8,
+                                  color: Colors.black26,
+                                  offset: Offset(2, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: const Text(
-                  'Farbfeld',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
               ),
-            ],
+            ),
           ),
         ),
       ),

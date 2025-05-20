@@ -59,76 +59,138 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Checkboxen
-              CheckboxListTile(
-                title: const Text('Newsletter abonnieren'),
-                value: isNewsletterSubscribed,
-                onChanged: (value) {
-                  setState(() {
-                    isNewsletterSubscribed = value!;
-                  });
-                },
-              ),
-              CheckboxListTile(
-                title: const Text('Benachrichtigungen aktivieren'),
-                value: isNotificationsEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    isNotificationsEnabled = value!;
-                  });
-                },
-              ),
-
-              const SizedBox(height: 20),
-
-              // Switches
-              SwitchListTile(
-                title: const Text('Dunkler Modus'),
-                value: isDarkMode,
-                onChanged: (value) {
-                  setState(() {
-                    isDarkMode = value;
-                  });
-                },
-              ),
-              SwitchListTile(
-                title: const Text('Offline-Modus'),
-                value: isOfflineMode,
-                onChanged: (value) {
-                  setState(() {
-                    isOfflineMode = value;
-                  });
-                },
-              ),
-
-              const Spacer(),
-
-              // Zusammenfassung
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Aktuelle Einstellungen:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.email, color: Colors.blue, size: 24),
+                              const SizedBox(width: 8),
+                              const Text('Newsletter', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          CheckboxListTile(
+                            title: const Text('Newsletter abonnieren'),
+                            value: isNewsletterSubscribed,
+                            onChanged: (value) {
+                              setState(() {
+                                isNewsletterSubscribed = value!;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 8),
-                      Text('Newsletter: ${isNewsletterSubscribed ? "Ja" : "Nein"}'),
-                      Text('Benachrichtigungen: ${isNotificationsEnabled ? "Ja" : "Nein"}'),
-                      Text('Dunkler Modus: ${isDarkMode ? "Aktiviert" : "Deaktiviert"}'),
-                      Text('Offline-Modus: ${isOfflineMode ? "Aktiviert" : "Deaktiviert"}'),
-                    ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                  Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.notifications, color: Colors.deepPurple, size: 24),
+                              const SizedBox(width: 8),
+                              const Text('Benachrichtigungen', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          CheckboxListTile(
+                            title: const Text('Benachrichtigungen aktivieren'),
+                            value: isNotificationsEnabled,
+                            onChanged: (value) {
+                              setState(() {
+                                isNotificationsEnabled = value!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.only(bottom: 24),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.dark_mode, color: Colors.teal, size: 24),
+                              const SizedBox(width: 8),
+                              const Text('Darstellung', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          SwitchListTile(
+                            title: const Text('Dunkler Modus'),
+                            value: isDarkMode,
+                            onChanged: (value) {
+                              setState(() {
+                                isDarkMode = value;
+                              });
+                            },
+                          ),
+                          SwitchListTile(
+                            title: const Text('Offline-Modus'),
+                            value: isOfflineMode,
+                            onChanged: (value) {
+                              setState(() {
+                                isOfflineMode = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.save),
+                    label: const Text('Einstellungen speichern'),
+                    style: ElevatedButton.styleFrom(minimumSize: const Size(180, 48)),
+                    onPressed: _saveSettings,
+                  ),
+                  const SizedBox(height: 32),
+                  Card(
+                    elevation: 2,
+                    color: Colors.grey[50],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Aktuelle Auswahl:',
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const SizedBox(height: 8),
+                          Text('Newsletter: ${isNewsletterSubscribed ? "Abonniert" : "Nicht abonniert"}'),
+                          Text('Benachrichtigungen: ${isNotificationsEnabled ? "Aktiviert" : "Deaktiviert"}'),
+                          Text('Dunkler Modus: ${isDarkMode ? "Aktiviert" : "Deaktiviert"}'),
+                          Text('Offline-Modus: ${isOfflineMode ? "Aktiviert" : "Deaktiviert"}'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

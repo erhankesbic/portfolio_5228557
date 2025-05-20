@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ProfileFormPage extends StatefulWidget {
   final String initialName;
   final String initialEmail;
+  final String initialAbout;
 
   const ProfileFormPage({
     super.key,
     this.initialName = '',
     this.initialEmail = '',
+    this.initialAbout = '',
   });
 
   @override
@@ -18,13 +20,14 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   final _formKey = GlobalKey<FormState>();
   late String _name;
   late String _email;
-  String _about = '';
+  late String _about;
 
   @override
   void initState() {
     super.initState();
     _name = widget.initialName;
     _email = widget.initialEmail;
+    _about = widget.initialAbout;
   }
 
   @override
@@ -63,6 +66,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                initialValue: _about,
                 decoration: const InputDecoration(
                   labelText: 'Über mich',
                   alignLabelWithHint: true,

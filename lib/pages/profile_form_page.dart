@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProfileFormPage extends StatefulWidget {
-  const ProfileFormPage({super.key});
+  final String initialName;
+  final String initialEmail;
+
+  const ProfileFormPage({
+    super.key,
+    this.initialName = '',
+    this.initialEmail = '',
+  });
 
   @override
   State<ProfileFormPage> createState() => _ProfileFormPageState();
@@ -9,16 +16,21 @@ class ProfileFormPage extends StatefulWidget {
 
 class _ProfileFormPageState extends State<ProfileFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '';
-  String _email = '';
+  late String _name;
+  late String _email;
   String _about = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _name = widget.initialName;
+    _email = widget.initialEmail;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profil bearbeiten'),
-      ),
+      appBar: AppBar(title: const Text('Profil bearbeiten')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -26,6 +38,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _name,
                 decoration: const InputDecoration(labelText: 'Name'),
                 onSaved: (value) => _name = value ?? '',
                 validator: (value) =>
@@ -33,6 +46,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                initialValue: _email,
                 decoration: const InputDecoration(labelText: 'E-Mail-Adresse'),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (value) => _email = value ?? '',
@@ -62,25 +76,13 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                   final isValid = _formKey.currentState?.validate() ?? false;
                   if (isValid) {
                     _formKey.currentState?.save();
-
-                    showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: const Text('Profilinformationen'),
-                        content: Text(
-                          'Name: $_name\nE-Mail: $_email\nÜber mich: $_about',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      ),
-                    );
+                    Navigator.pop(context, {
+                      'name': _name,
+                      'email': _email,
+                    });
                   }
                 },
-                child: const Text('Absenden'),
+                child: const Text('Speichern'),
               ),
             ],
           ),

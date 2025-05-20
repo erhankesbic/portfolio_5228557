@@ -1,16 +1,17 @@
-// user_data.dart
 class UserData {
-  final String name;
-  final String email;
-  final double sliderValue;
-  final bool newsletter;
-  final bool darkMode;
+  String name;
+  String email;
+  String about;
+  double sliderValue;
+  bool newsletter;
+  bool darkMode;
 
   UserData({
-    required this.name,
-    required this.email,
-    required this.sliderValue,
-    required this.newsletter,
-    required this.darkMode,
+    this.name = '',
+    this.email = '',
+    this.about = '',
+    this.sliderValue = 0,
+    this.newsletter = false,
+    this.darkMode = false,
   });
 }

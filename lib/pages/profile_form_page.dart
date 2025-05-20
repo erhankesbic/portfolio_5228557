@@ -76,10 +76,27 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                   final isValid = _formKey.currentState?.validate() ?? false;
                   if (isValid) {
                     _formKey.currentState?.save();
-                    Navigator.pop(context, {
-                      'name': _name,
-                      'email': _email,
-                    });
+
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Eingegebene Daten'),
+                        content: Text('Name: $_name\nEmail: $_email\nÜber mich: $_about'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Dialog schließen
+                              Navigator.pop(context, {
+                                'name': _name,
+                                'email': _email,
+                                'about': _about,
+                              }); // Seite schließen und Daten zurückgeben
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                 },
                 child: const Text('Speichern'),

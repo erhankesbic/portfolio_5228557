@@ -24,6 +24,7 @@ class SummaryPage extends StatelessWidget {
             ),
             Text('Name: ${data.name}'),
             Text('E-Mail: ${data.email}'),
+            Text('Über mich: ${data.about}'),
             const SizedBox(height: 16),
 
             const Text(

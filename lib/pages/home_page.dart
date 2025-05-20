@@ -15,16 +15,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String name = '';
   String email = '';
+  String about = '';
   double sliderValue = 50.0;
   bool newsletter = false;
   bool darkMode = false;
   bool notifications = false;
   bool offlineMode = false;
 
-  void updateProfile(String newName, String newEmail) {
+  void updateProfile(String newName, String newEmail, String newAbout) {
     setState(() {
       name = newName;
       email = newEmail;
+      about = newAbout;
     });
   }
 
@@ -75,7 +77,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
                 if (result is Map<String, String>) {
-                  updateProfile(result['name'] ?? '', result['email'] ?? '');
+                  updateProfile(
+                    result['name'] ?? '',
+                    result['email'] ?? '',
+                    result['about'] ?? '',
+                  );
                 }
               },
               child: const Text('Profilseite'),
@@ -123,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                 final userData = UserData(
                   name: name,
                   email: email,
+                  about: about,
                   sliderValue: sliderValue,
                   newsletter: newsletter,
                   darkMode: darkMode,

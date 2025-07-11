@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../models/about_data.dart';
@@ -88,10 +87,9 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.person,
-                size: 80,
-                color: Colors.white,
+              child: const Text(
+                '👤',
+                style: TextStyle(fontSize: 80),
               ),
             ),
             AppWidgets.spacing(height: AppTheme.spacingLarge),
@@ -338,10 +336,9 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                 ),
               ),
-              Icon(
-                item.isCompleted ? Icons.check_circle : Icons.schedule,
-                color: item.isCompleted ? Colors.green : AppTheme.secondaryColor,
-                size: 20,
+              Text(
+                item.isCompleted ? '✅' : '⏰',
+                style: const TextStyle(fontSize: 20),
               ),
             ],
           ),
@@ -463,10 +460,12 @@ class _AboutPageState extends State<AboutPage> {
             color: AppTheme.primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Icon(
-            _getContactIcon(contact.type),
-            color: AppTheme.primaryColor,
-            size: 20,
+          child: Text(
+            _getContactEmoji(contact.type),
+            style: TextStyle(
+              fontSize: 20,
+              color: AppTheme.primaryColor,
+            ),
           ),
         ),
         title: Text(
@@ -483,8 +482,8 @@ class _AboutPageState extends State<AboutPage> {
             decoration: contact.isClickable ? TextDecoration.underline : null,
           ),
         ),
-        onTap: contact.isClickable && contact.url != null 
-            ? () => _launchUrl(contact.url!) 
+        onTap: contact.isClickable 
+            ? () => _showContactSnackBar(contact.value) 
             : null,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6),
@@ -514,47 +513,34 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-  /// Gibt das passende Icon für den Kontakt-Typ zurück
-  IconData _getContactIcon(ContactType type) {
+  /// Gibt das passende Emoji für den Kontakt-Typ zurück
+  String _getContactEmoji(ContactType type) {
     switch (type) {
       case ContactType.email:
-        return Icons.email;
+        return '✉️';
       case ContactType.phone:
-        return Icons.phone;
+        return '📞';
       case ContactType.website:
-        return Icons.language;
+        return '🌐';
       case ContactType.github:
-        return Icons.code;
+        return '💻';
       case ContactType.linkedin:
-        return Icons.business;
+        return '💼';
       case ContactType.university:
-        return Icons.school;
+        return '🏫';
       case ContactType.location:
-        return Icons.location_on;
+        return '📍';
     }
   }
 
-  /// Öffnet eine URL in der Standard-App
-  Future<void> _launchUrl(String url) async {
-    try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      } else {
-        _showErrorSnackBar('Konnte $url nicht öffnen');
-      }
-    } catch (e) {
-      _showErrorSnackBar('Fehler beim Öffnen von $url');
-    }
-  }
-
-  /// Zeigt eine Fehler-SnackBar
-  void _showErrorSnackBar(String message) {
+  /// Zeigt eine Info-SnackBar für Kontakt-Clicks
+  void _showContactSnackBar(String contactValue) {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red,
+          content: Text('Kontakt: $contactValue'),
+          backgroundColor: AppTheme.primaryColor,
+          duration: const Duration(seconds: 2),
         ),
       );
     }

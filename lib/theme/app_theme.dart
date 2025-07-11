@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Zentrale Theme-Verwaltung für die gesamte App
 ///
@@ -140,8 +139,8 @@ class AppTheme {
         brightness: Brightness.light,
       ),
 
-      // Verwende Roboto Font über Google Fonts für bessere Kompatibilität
-      textTheme: GoogleFonts.robotoTextTheme(),
+      // Verwende Standard Flutter TextTheme
+      textTheme: const TextTheme(),
 
       // Icon Theme - Stelle sicher, dass Material Icons verwendet werden
       iconTheme: const IconThemeData(color: textPrimary, size: iconMedium),
@@ -242,8 +241,8 @@ class AppTheme {
         brightness: Brightness.dark,
       ),
 
-      // Verwende Roboto Font über Google Fonts für bessere Kompatibilität
-      textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+      // Verwende Standard Flutter TextTheme für Dark Mode
+      textTheme: ThemeData.dark().textTheme,
 
       // Icon Theme für Dark Mode
       iconTheme: const IconThemeData(color: Colors.white, size: iconMedium),

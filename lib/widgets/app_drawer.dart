@@ -96,7 +96,6 @@ class AppDrawer extends StatelessWidget {
               Navigator.pop(context);
               NavigationService.navigateToSummary(
                 context,
-                userData: currentUser,
               );
             },
           ),

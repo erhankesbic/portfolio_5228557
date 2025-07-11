@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../widgets/app_scaffold.dart';
+import '../viewmodels/home_view_model.dart';
 
 /// Konstanten für die Profilformular-Seite
 class ProfileFormConstants {
@@ -116,11 +118,12 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         _formKey.currentState?.save();
-                        Navigator.pop(context, {
-                          'name': _nameController.text,
-                          'email': _emailController.text,
-                          'about': _aboutController.text,
-                        });
+                        Provider.of<HomeViewModel>(context, listen: false).updateProfile(
+                          _nameController.text,
+                          _emailController.text,
+                          _aboutController.text,
+                        );
+                        Navigator.pop(context);
                       }
                     },
                   ),

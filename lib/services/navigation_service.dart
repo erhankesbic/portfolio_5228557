@@ -92,12 +92,11 @@ class NavigationService {
   /// [context] - Build Context für Navigation
   /// [userData] - Alle Benutzerdaten
   static Future<void> navigateToSummary(
-    BuildContext context, {
-    required UserData userData,
-  }) async {
+    BuildContext context,
+  ) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => SummaryPage(data: userData)),
+      MaterialPageRoute(builder: (_) => const SummaryPage()),
     );
   }
 

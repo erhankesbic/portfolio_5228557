@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 
+/// Konstanten für die Profilformular-Seite
+class ProfileFormConstants {
+  static const double formPadding = 16.0;
+  static const double fieldSpacing = 16.0;
+  static const double buttonSpacing = 24.0;
+  static const int maxNameLength = 50;
+  static const int maxEmailLength = 100;
+  static const int maxAboutLength = 500;
+}
+
+/// Seite für die Bearbeitung von Profilinformationen
+///
+/// Ermöglicht Benutzern das Eingeben und Validieren von:
+/// - Name (Pflichtfeld, 2-50 Zeichen)
+/// - E-Mail (Pflichtfeld, gültige E-Mail-Adresse)
+/// - Über mich (Optional, max. 500 Zeichen)
 class ProfileFormPage extends StatefulWidget {
   final String initialName;
   final String initialEmail;

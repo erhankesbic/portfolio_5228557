@@ -3,7 +3,7 @@ import '../pages/profile_form_page.dart';
 import '../pages/slider_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/summary_page.dart';
-import '../pages/user_data.dart';
+import '../models/user_data.dart';
 
 /// Service für die Navigation zwischen Seiten
 ///

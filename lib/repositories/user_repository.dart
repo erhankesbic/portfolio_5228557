@@ -1,4 +1,4 @@
-import '../pages/user_data.dart';
+import '../models/user_data.dart';
 
 /// Repository für Benutzerdaten-Management
 ///

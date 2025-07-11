@@ -3,7 +3,7 @@ import 'profile_form_page.dart';
 import 'slider_page.dart';
 import 'settings_page.dart';
 import 'summary_page.dart';
-import 'user_data.dart';
+import '../models/user_data.dart';
 import '../repositories/user_repository.dart';
 import '../constants/app_constants.dart';
 import '../theme/app_theme.dart';

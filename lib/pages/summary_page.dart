@@ -1,6 +1,6 @@
 // summary_page.dart
 import 'package:flutter/material.dart';
-import 'user_data.dart';
+import '../models/user_data.dart';
 
 class SummaryPage extends StatelessWidget {
   final UserData data;

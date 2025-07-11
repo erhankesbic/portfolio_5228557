@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../models/about_data.dart';
 
 /// Repository für About-Seite Daten
@@ -26,8 +27,10 @@ class AboutRepository {
     return const PersonalInfo(
       name: 'Erhan Kesbic',
       title: 'Flutter Developer & Student',
-      shortBio: 'Leidenschaftlicher Student der Informatik mit Fokus auf Mobile App Development',
-      detailedBio: 'Hallo! Ich bin Erhan Kesbic, ein leidenschaftlicher Student der Informatik '
+      shortBio:
+          'Leidenschaftlicher Student der Informatik mit Fokus auf Mobile App Development',
+      detailedBio:
+          'Hallo! Ich bin Erhan Kesbic, ein leidenschaftlicher Student der Informatik '
           'mit Schwerpunkt auf Mobile App Development und moderne Webtechnologien. '
           'Meine Reise in die Programmierung begann vor einigen Jahren, und seitdem '
           'entwickle ich kontinuierlich meine Fähigkeiten in verschiedenen Technologien. '
@@ -44,13 +47,27 @@ class AboutRepository {
     return [
       const SkillCategory(
         title: 'Frontend Development',
-        skills: ['Flutter', 'Dart', 'React', 'JavaScript', 'HTML/CSS', 'Material Design'],
+        skills: [
+          'Flutter',
+          'Dart',
+          'React',
+          'JavaScript',
+          'HTML/CSS',
+          'Material Design',
+        ],
         level: SkillLevel.advanced,
         description: 'Spezialisierung auf Mobile App Development mit Flutter',
       ),
       const SkillCategory(
         title: 'Backend & Datenbanken',
-        skills: ['Node.js', 'Python', 'Firebase', 'MongoDB', 'SQL', 'REST APIs'],
+        skills: [
+          'Node.js',
+          'Python',
+          'Firebase',
+          'MongoDB',
+          'SQL',
+          'REST APIs',
+        ],
         level: SkillLevel.intermediate,
         description: 'Solide Grundlagen in Backend-Entwicklung',
       ),
@@ -62,7 +79,12 @@ class AboutRepository {
       ),
       const SkillCategory(
         title: 'Architektur & Patterns',
-        skills: ['Repository Pattern', 'MVVM', 'Clean Architecture', 'State Management'],
+        skills: [
+          'Repository Pattern',
+          'MVVM',
+          'Clean Architecture',
+          'State Management',
+        ],
         level: SkillLevel.intermediate,
         description: 'Saubere Code-Architektur und Design Patterns',
       ),
@@ -76,7 +98,8 @@ class AboutRepository {
         institution: 'Technische Hochschule Mittelhessen',
         degree: 'Bachelor Informatik',
         period: '2023 - Voraussichtlich 2027',
-        description: '📚 Schwerpunkt: Software Engineering & Mobile Development\n'
+        description:
+            '📚 Schwerpunkt: Software Engineering & Mobile Development\n'
             'Kernmodule: Programmierung, Algorithmen, Datenbanken, Software Engineering',
         isCompleted: false,
       ),
@@ -84,7 +107,8 @@ class AboutRepository {
         institution: 'GUI-Programmierung Praktikum',
         degree: 'Flutter Development Projekt',
         period: 'Sommersemester 2025',
-        description: '🚀 Portfolio-Projekt mit Clean Code Architektur\n'
+        description:
+            '🚀 Portfolio-Projekt mit Clean Code Architektur\n'
             'Implementierung einer vollständigen Flutter-App mit professioneller Struktur',
         isCompleted: true,
       ),
@@ -95,37 +119,37 @@ class AboutRepository {
   List<Interest> _getInterests() {
     return [
       const Interest(
-        emoji: '💻',
+        icon: Icons.code,
         title: 'Programmierung',
         subtitle: 'Neue Technologien entdecken',
         description: 'Ständige Weiterbildung in neuen Frameworks und Sprachen',
       ),
       const Interest(
-        emoji: '🎮',
+        icon: Icons.sports_esports,
         title: 'Gaming',
         subtitle: 'Entspannung & Inspiration',
         description: 'Analyse von Game Design und User Experience',
       ),
       const Interest(
-        emoji: '📚',
+        icon: Icons.school,
         title: 'Lernen',
         subtitle: 'Online Kurse & Tutorials',
         description: 'Kontinuierliche Weiterbildung durch Online-Plattformen',
       ),
       const Interest(
-        emoji: '🚀',
+        icon: Icons.rocket_launch,
         title: 'Innovation',
         subtitle: 'Zukunftstechnologien',
         description: 'Interesse an KI, IoT und emerging technologies',
       ),
       const Interest(
-        emoji: '🎵',
+        icon: Icons.music_note,
         title: 'Musik',
         subtitle: 'Coding-Soundtrack',
         description: 'Musik als Inspiration beim Programmieren',
       ),
       const Interest(
-        emoji: '⚽',
+        icon: Icons.sports_soccer,
         title: 'Sport',
         subtitle: 'Fitness & Teamgeist',
         description: 'Work-Life-Balance durch Sport und Teamaktivitäten',

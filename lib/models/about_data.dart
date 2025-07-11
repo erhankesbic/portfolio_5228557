@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 /// Modell-Klasse für About-Seite Daten
 ///
 /// Kapselt alle persönlichen Informationen und strukturiert sie
@@ -5,16 +7,16 @@
 class AboutData {
   /// Persönliche Grunddaten
   final PersonalInfo personalInfo;
-  
+
   /// Liste der technischen Fähigkeiten
   final List<SkillCategory> skills;
-  
+
   /// Bildungsweg und Qualifikationen
   final List<EducationItem> education;
-  
+
   /// Interessen und Hobbys
   final List<Interest> interests;
-  
+
   /// Kontaktinformationen
   final List<ContactInfo> contactInfo;
 
@@ -60,12 +62,7 @@ class SkillCategory {
 }
 
 /// Skill-Level für bessere Kategorisierung
-enum SkillLevel {
-  beginner,
-  intermediate,
-  advanced,
-  expert,
-}
+enum SkillLevel { beginner, intermediate, advanced, expert }
 
 /// Bildungs-Eintrag
 class EducationItem {
@@ -86,13 +83,13 @@ class EducationItem {
 
 /// Interesse/Hobby-Eintrag
 class Interest {
-  final String emoji;
+  final IconData icon;
   final String title;
   final String subtitle;
   final String? description;
 
   const Interest({
-    required this.emoji,
+    required this.icon,
     required this.title,
     required this.subtitle,
     this.description,

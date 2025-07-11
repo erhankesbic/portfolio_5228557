@@ -29,10 +29,7 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Über mich'),
-        elevation: 0,
-      ),
+      appBar: AppBar(title: const Text('Über mich'), elevation: 0),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -57,10 +54,7 @@ class _AboutPageState extends State<AboutPage> {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            AppTheme.primaryColor.withValues(alpha: 0.1),
-            Colors.white,
-          ],
+          colors: [AppTheme.primaryColor.withValues(alpha: 0.1), Colors.white],
         ),
       ),
       child: Padding(
@@ -74,10 +68,7 @@ class _AboutPageState extends State<AboutPage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [
-                    AppTheme.primaryColor,
-                    AppTheme.secondaryColor,
-                  ],
+                  colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -87,13 +78,10 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                 ],
               ),
-              child: const Text(
-                '👤',
-                style: TextStyle(fontSize: 80),
-              ),
+              child: Icon(Icons.person, size: 80, color: AppTheme.primaryColor),
             ),
             AppWidgets.spacing(height: AppTheme.spacingLarge),
-            
+
             // Name und Titel
             Text(
               personalInfo.name,
@@ -112,22 +100,31 @@ class _AboutPageState extends State<AboutPage> {
               textAlign: TextAlign.center,
             ),
             AppWidgets.spacing(height: AppTheme.spacingMedium),
-            
+
             // Status Tags
             Wrap(
               spacing: AppTheme.spacingSmall,
               runSpacing: AppTheme.spacingSmall,
-              children: personalInfo.statusTags.map((tag) => Chip(
-                label: Text(
-                  tag,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                backgroundColor: AppTheme.primaryColor,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              )).toList(),
+              children:
+                  personalInfo.statusTags
+                      .map(
+                        (tag) => Chip(
+                          label: Text(
+                            tag,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                          backgroundColor: AppTheme.primaryColor,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      )
+                      .toList(),
             ),
             AppWidgets.spacing(height: AppTheme.spacingMedium),
-            
+
             // Kurze Bio
             Container(
               padding: const EdgeInsets.all(AppTheme.spacingMedium),
@@ -162,7 +159,8 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
-        title: '📖 Meine Geschichte',
+        title: 'Meine Geschichte',
+        icon: Icons.menu_book,
         child: Text(
           personalInfo.detailedBio,
           style: AppTheme.bodyMedium.copyWith(
@@ -180,9 +178,13 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
-        title: '🛠️ Technische Fähigkeiten',
+        title: 'Technische Fähigkeiten',
+        icon: Icons.build,
         child: Column(
-          children: skills.map((skillCategory) => _buildSkillCategory(skillCategory)).toList(),
+          children:
+              skills
+                  .map((skillCategory) => _buildSkillCategory(skillCategory))
+                  .toList(),
         ),
       ),
     );
@@ -190,9 +192,13 @@ class _AboutPageState extends State<AboutPage> {
 
   /// Erstellt eine einzelne Skill-Kategorie
   Widget _buildSkillCategory(SkillCategory skillCategory) {
-    final skillLevelText = _aboutRepository.getSkillLevelText(skillCategory.level);
-    final skillLevelColor = Color(_aboutRepository.getSkillLevelColorValue(skillCategory.level));
-    
+    final skillLevelText = _aboutRepository.getSkillLevelText(
+      skillCategory.level,
+    );
+    final skillLevelColor = Color(
+      _aboutRepository.getSkillLevelColorValue(skillCategory.level),
+    );
+
     return Container(
       margin: const EdgeInsets.only(bottom: AppTheme.spacingLarge),
       padding: const EdgeInsets.all(AppTheme.spacingMedium),
@@ -206,12 +212,7 @@ class _AboutPageState extends State<AboutPage> {
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border(
-          left: BorderSide(
-            width: 4,
-            color: skillLevelColor,
-          ),
-        ),
+        border: Border(left: BorderSide(width: 4, color: skillLevelColor)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,26 +261,31 @@ class _AboutPageState extends State<AboutPage> {
           Wrap(
             spacing: AppTheme.spacingSmall,
             runSpacing: AppTheme.spacingSmall,
-            children: skillCategory.skills.map((skill) => Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.spacingSmall,
-                vertical: 6,
-              ),
-              decoration: BoxDecoration(
-                color: AppTheme.surfaceColor,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                ),
-              ),
-              child: Text(
-                skill,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            )).toList(),
+            children:
+                skillCategory.skills
+                    .map(
+                      (skill) => Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppTheme.spacingSmall,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surfaceColor,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: AppTheme.primaryColor.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Text(
+                          skill,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
           ),
         ],
       ),
@@ -291,7 +297,8 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
-        title: '🎓 Bildungsweg',
+        title: 'Bildungsweg',
+        icon: Icons.school,
         child: Column(
           children: education.map((item) => _buildEducationItem(item)).toList(),
         ),
@@ -353,9 +360,7 @@ class _AboutPageState extends State<AboutPage> {
           AppWidgets.spacing(height: AppTheme.spacingSmall),
           Text(
             item.period,
-            style: AppTheme.bodySmall.copyWith(
-              color: AppTheme.textSecondary,
-            ),
+            style: AppTheme.bodySmall.copyWith(color: AppTheme.textSecondary),
           ),
           AppWidgets.spacing(height: AppTheme.spacingMedium),
           Text(
@@ -375,7 +380,8 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
-        title: '🌟 Interessen & Hobbys',
+        title: 'Interessen & Hobbys',
+        icon: Icons.star,
         child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -410,10 +416,7 @@ class _AboutPageState extends State<AboutPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            interest.emoji,
-            style: const TextStyle(fontSize: 32),
-          ),
+          Icon(interest.icon, color: AppTheme.primaryColor, size: 32),
           AppWidgets.spacing(height: AppTheme.spacingSmall),
           Text(
             interest.title,
@@ -426,9 +429,7 @@ class _AboutPageState extends State<AboutPage> {
           AppWidgets.spacing(height: 4),
           Text(
             interest.subtitle,
-            style: AppTheme.bodySmall.copyWith(
-              color: AppTheme.textSecondary,
-            ),
+            style: AppTheme.bodySmall.copyWith(color: AppTheme.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],
@@ -441,9 +442,11 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
-        title: '📞 Kontakt',
+        title: 'Kontakt',
+        icon: Icons.contact_phone,
         child: Column(
-          children: contactInfo.map((contact) => _buildContactItem(contact)).toList(),
+          children:
+              contactInfo.map((contact) => _buildContactItem(contact)).toList(),
         ),
       ),
     );
@@ -460,12 +463,10 @@ class _AboutPageState extends State<AboutPage> {
             color: AppTheme.primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Text(
-            _getContactEmoji(contact.type),
-            style: TextStyle(
-              fontSize: 20,
-              color: AppTheme.primaryColor,
-            ),
+          child: Icon(
+            _getContactIcon(contact.type),
+            color: AppTheme.primaryColor,
+            size: 20,
           ),
         ),
         title: Text(
@@ -478,34 +479,49 @@ class _AboutPageState extends State<AboutPage> {
         subtitle: Text(
           contact.value,
           style: AppTheme.bodySmall.copyWith(
-            color: contact.isClickable ? AppTheme.primaryColor : AppTheme.textSecondary,
+            color:
+                contact.isClickable
+                    ? AppTheme.primaryColor
+                    : AppTheme.textSecondary,
             decoration: contact.isClickable ? TextDecoration.underline : null,
           ),
         ),
-        onTap: contact.isClickable 
-            ? () => _showContactSnackBar(contact.value) 
-            : null,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        tileColor: contact.isClickable 
-            ? AppTheme.primaryColor.withValues(alpha: 0.05) 
-            : Colors.transparent,
+        onTap:
+            contact.isClickable
+                ? () => _showContactSnackBar(contact.value)
+                : null,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        tileColor:
+            contact.isClickable
+                ? AppTheme.primaryColor.withValues(alpha: 0.05)
+                : Colors.transparent,
       ),
     );
   }
 
   /// Hilfsmethode für Sections
-  Widget _buildSection({required String title, required Widget child}) {
+  Widget _buildSection({
+    required String title,
+    required Widget child,
+    IconData? icon,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: AppTheme.headlineSmall.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppTheme.primaryColor,
-          ),
+        Row(
+          children: [
+            if (icon != null) ...[
+              Icon(icon, color: AppTheme.primaryColor, size: 24),
+              const SizedBox(width: 8),
+            ],
+            Text(
+              title,
+              style: AppTheme.headlineSmall.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppTheme.primaryColor,
+              ),
+            ),
+          ],
         ),
         AppWidgets.spacing(height: AppTheme.spacingLarge),
         child,
@@ -513,23 +529,23 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-  /// Gibt das passende Emoji für den Kontakt-Typ zurück
-  String _getContactEmoji(ContactType type) {
+  /// Gibt das passende Material Icon für den Kontakt-Typ zurück
+  IconData _getContactIcon(ContactType type) {
     switch (type) {
       case ContactType.email:
-        return '✉️';
+        return Icons.email;
       case ContactType.phone:
-        return '📞';
+        return Icons.phone;
       case ContactType.website:
-        return '🌐';
+        return Icons.language;
       case ContactType.github:
-        return '💻';
+        return Icons.code;
       case ContactType.linkedin:
-        return '💼';
+        return Icons.business;
       case ContactType.university:
-        return '🏫';
+        return Icons.school;
       case ContactType.location:
-        return '📍';
+        return Icons.location_on;
     }
   }
 

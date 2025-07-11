@@ -122,49 +122,63 @@ class SummaryPage extends StatelessWidget {
                               'Offline-Modus: ${data.offlineMode ? 'Ja' : 'Nein'}',
                               style: AppTheme.bodyLarge,
                             ),
-                          ],
-                        ),
+                          AppWidgets.spacing(height: AppTheme.spacingMedium),
+                          AppWidgets.textButton(
+                            label: 'Einstellungen bearbeiten',
+                            onPressed: () {
+                              NavigationService.navigateToSettings(
+                                context,
+                                newsletter: data.newsletter,
+                                darkMode: data.darkMode,
+                                notifications: data.notifications,
+                                offlineMode: data.offlineMode,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    AppWidgets.card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppTheme.spacingLarge),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                AppWidgets.card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppTheme.spacingLarge),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.tune,
-                                  color: AppTheme.primaryColor,
-                                  size: 28,
-                                ),
-                                AppWidgets.spacing(width: AppTheme.spacingSmall),
-                                Text(
-                                  'Slider-Wert',
-                                  style: AppTheme.titleLarge.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                            Icon(
+                              Icons.tune,
+                              color: AppTheme.primaryColor,
+                              size: 28,
                             ),
-                            AppWidgets.spacing(height: AppTheme.spacingMedium),
+                            AppWidgets.spacing(width: AppTheme.spacingSmall),
                             Text(
-                              'Wert: ${data.sliderValue.toInt()}',
-                              style: AppTheme.bodyLarge,
+                              'Slider-Wert',
+                              style: AppTheme.titleLarge.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
-                      ),
+                        AppWidgets.spacing(height: AppTheme.spacingMedium),
+                        Text(
+                          'Wert: ${data.sliderValue.toInt()}',
+                          style: AppTheme.bodyLarge,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        );
+        ),
+      ),
+    );
+
+
       },
     );
   }
-}
-
+  }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../widgets/app_scaffold.dart';
+import '../viewmodels/home_view_model.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool initialNewsletter;
@@ -37,12 +39,13 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _saveSettings() {
-    Navigator.pop(context, {
-      'newsletter': isNewsletterSubscribed,
-      'darkMode': isDarkMode,
-      'notifications': isNotificationsEnabled,
-      'offlineMode': isOfflineMode,
-    });
+    Provider.of<HomeViewModel>(context, listen: false).updateSettings(
+      newsletter: isNewsletterSubscribed,
+      darkMode: isDarkMode,
+      notifications: isNotificationsEnabled,
+      offlineMode: isOfflineMode,
+    );
+    Navigator.pop(context);
   }
 
   @override

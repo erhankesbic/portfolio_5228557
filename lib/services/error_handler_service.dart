@@ -1,13 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Exception-Typen für bessere Fehlerbehandlung
-enum ErrorType {
-  network,
-  validation,
-  permission,
-  storage,
-  unknown,
-}
+enum ErrorType { network, validation, permission, storage, unknown }
 
 /// Basis-Exception-Klasse für die App
 class AppException implements Exception {
@@ -31,33 +25,24 @@ class AppException implements Exception {
 
 /// Validierungs-Exception
 class ValidationException extends AppException {
-  ValidationException({
-    required super.message,
-    super.details,
-    super.stackTrace,
-  }) : super(type: ErrorType.validation);
+  ValidationException({required super.message, super.details, super.stackTrace})
+    : super(type: ErrorType.validation);
 }
 
 /// Netzwerk-Exception
 class NetworkException extends AppException {
-  NetworkException({
-    required super.message,
-    super.details,
-    super.stackTrace,
-  }) : super(type: ErrorType.network);
+  NetworkException({required super.message, super.details, super.stackTrace})
+    : super(type: ErrorType.network);
 }
 
 /// Storage-Exception
 class StorageException extends AppException {
-  StorageException({
-    required super.message,
-    super.details,
-    super.stackTrace,
-  }) : super(type: ErrorType.storage);
+  StorageException({required super.message, super.details, super.stackTrace})
+    : super(type: ErrorType.storage);
 }
 
 /// Zentraler Error Handler Service
-/// 
+///
 /// Dieser Service behandelt alle Fehler in der App einheitlich
 /// und stellt benutzerfreundliche Fehlermeldungen bereit.
 class ErrorHandlerService {
@@ -67,15 +52,11 @@ class ErrorHandlerService {
   ErrorHandlerService._internal();
 
   /// Behandelt einen Fehler und gibt eine benutzerfreundliche Nachricht zurück
-  /// 
+  ///
   /// [error] - Der aufgetretene Fehler
   /// [stackTrace] - Optional: Stack Trace für Debugging
   /// [context] - Optional: Zusätzlicher Kontext für den Fehler
-  String handleError(
-    dynamic error, {
-    StackTrace? stackTrace,
-    String? context,
-  }) {
+  String handleError(dynamic error, {StackTrace? stackTrace, String? context}) {
     // Debug-Modus: Detaillierte Logs
     if (kDebugMode) {
       debugPrint('=== ERROR HANDLER ===');
@@ -110,23 +91,23 @@ class ErrorHandlerService {
     switch (exception.type) {
       case ErrorType.validation:
         return exception.message;
-      
+
       case ErrorType.network:
         return 'Netzwerkfehler: ${exception.message}';
-      
+
       case ErrorType.storage:
         return 'Speicherfehler: ${exception.message}';
-      
+
       case ErrorType.permission:
         return 'Berechtigung fehlt: ${exception.message}';
-      
+
       case ErrorType.unknown:
         return exception.message;
     }
   }
 
   /// Loggt einen Fehler für Debugging/Analytics
-  /// 
+  ///
   /// [error] - Der Fehler
   /// [stackTrace] - Stack Trace
   /// [context] - Kontext-Information
@@ -142,25 +123,21 @@ class ErrorHandlerService {
       debugPrint('Context: ${context ?? 'Unknown'}');
       debugPrint('Error: $error');
       debugPrint('Type: ${error.runtimeType}');
-      
+
       if (additionalData != null) {
         debugPrint('Additional Data: $additionalData');
       }
-      
+
       if (stackTrace != null) {
         debugPrint('StackTrace: $stackTrace');
       }
       debugPrint('================');
     }
-
-    // TODO: In einer echten App würde hier Analytics/Crashlytics aufgerufen
-    // FirebaseCrashlytics.instance.recordError(error, stackTrace);
   }
 
   /// Zeigt einen benutzerfreundlichen Fehler-Dialog
-  /// 
+  ///
   /// [error] - Der Fehler
-  /// [onRetry] - Optional: Retry-Callback
   String getDisplayMessage(dynamic error) {
     return handleError(error);
   }
@@ -168,8 +145,8 @@ class ErrorHandlerService {
   /// Prüft ob ein Fehler als kritisch eingestuft werden sollte
   bool isCriticalError(dynamic error) {
     if (error is AppException) {
-      return error.type == ErrorType.storage || 
-             error.type == ErrorType.permission;
+      return error.type == ErrorType.storage ||
+          error.type == ErrorType.permission;
     }
     return false;
   }
@@ -182,9 +159,7 @@ class ErrorHandlerService {
     String? context,
     StackTrace? stackTrace,
   }) {
-    final contextualMessage = context != null 
-        ? '$context: $message' 
-        : message;
+    final contextualMessage = context != null ? '$context: $message' : message;
 
     return AppException(
       message: contextualMessage,

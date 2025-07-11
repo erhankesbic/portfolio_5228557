@@ -66,10 +66,11 @@ class _HomePageState extends State<HomePage> {
   /// Erstellt den Willkommens-Text
   Widget _buildWelcomeText() {
     final userName = _currentUser.name;
-    final welcomeText = userName.isNotEmpty 
-        ? '${AppConstants.welcomePersonalized}, $userName!' 
-        : AppConstants.welcomeDefault;
-    
+    final welcomeText =
+        userName.isNotEmpty
+            ? '${AppConstants.welcomePersonalized}, $userName!'
+            : AppConstants.welcomeDefault;
+
     return Text(
       welcomeText,
       style: AppTheme.headlineSmall,
@@ -146,7 +147,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _navigateToSlider() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => SliderPage(initialValue: _currentUser.sliderValue)),
+      MaterialPageRoute(
+        builder: (_) => SliderPage(initialValue: _currentUser.sliderValue),
+      ),
     );
     if (result is double) {
       updateSliderValue(result);

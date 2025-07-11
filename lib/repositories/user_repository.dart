@@ -1,7 +1,7 @@
 import '../pages/user_data.dart';
 
 /// Repository für Benutzerdaten-Management
-/// 
+///
 /// Kapselt die gesamte Logik für Benutzerdaten-Updates.
 /// Folgt dem Repository Pattern und Single Responsibility Principle.
 class UserRepository {
@@ -14,7 +14,7 @@ class UserRepository {
   bool get hasCompleteProfile => _userData.hasCompleteProfile;
 
   /// Aktualisiert die Profildaten
-  /// 
+  ///
   /// [name] - Neuer Name
   /// [email] - Neue E-Mail
   /// [about] - Neue Beschreibung
@@ -23,22 +23,18 @@ class UserRepository {
     required String email,
     required String about,
   }) {
-    _userData = _userData.copyWith(
-      name: name,
-      email: email,
-      about: about,
-    );
+    _userData = _userData.copyWith(name: name, email: email, about: about);
   }
 
   /// Aktualisiert den Slider-Wert
-  /// 
+  ///
   /// [value] - Neuer Slider-Wert
   void updateSliderValue(double value) {
     _userData = _userData.copyWith(sliderValue: value);
   }
 
   /// Aktualisiert alle Einstellungen
-  /// 
+  ///
   /// [newsletter] - Newsletter-Status
   /// [darkMode] - Dark Mode Status
   /// [notifications] - Benachrichtigungs-Status

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// Wiederverwendbare UI-Komponenten für die gesamte App
-/// 
+///
 /// Diese Klasse enthält häufig verwendete Widgets, die konsistent
 /// in der gesamten Anwendung eingesetzt werden können.
 class AppWidgets {
@@ -10,7 +10,7 @@ class AppWidgets {
   AppWidgets._();
 
   /// Standard Benutzer-Avatar
-  /// 
+  ///
   /// [radius] - Radius des Avatars (default: medium)
   /// [backgroundColor] - Hintergrundfarbe (default: primaryLight)
   /// [iconColor] - Icon-Farbe (default: primaryDark)
@@ -22,7 +22,7 @@ class AppWidgets {
     IconData? icon,
   }) {
     final double avatarRadius = radius ?? AppTheme.avatarMedium;
-    
+
     return CircleAvatar(
       radius: avatarRadius,
       backgroundColor: backgroundColor ?? AppTheme.primaryLight,
@@ -35,7 +35,7 @@ class AppWidgets {
   }
 
   /// Standard App-Button mit Icon
-  /// 
+  ///
   /// [icon] - Icon für den Button
   /// [label] - Button-Text
   /// [onPressed] - Callback-Funktion
@@ -54,17 +54,19 @@ class AppWidgets {
       icon: Icon(icon),
       onPressed: onPressed,
       label: Text(label),
-      style: style ?? ElevatedButton.styleFrom(
-        minimumSize: Size(
-          width ?? AppTheme.buttonMediumWidth,
-          height ?? AppTheme.buttonHeight,
-        ),
-      ),
+      style:
+          style ??
+          ElevatedButton.styleFrom(
+            minimumSize: Size(
+              width ?? AppTheme.buttonMediumWidth,
+              height ?? AppTheme.buttonHeight,
+            ),
+          ),
     );
   }
 
   /// Standard Text-Button
-  /// 
+  ///
   /// [label] - Button-Text
   /// [onPressed] - Callback-Funktion
   /// [style] - Optionales Button-Style
@@ -73,15 +75,11 @@ class AppWidgets {
     required VoidCallback? onPressed,
     ButtonStyle? style,
   }) {
-    return TextButton(
-      onPressed: onPressed,
-      style: style,
-      child: Text(label),
-    );
+    return TextButton(onPressed: onPressed, style: style, child: Text(label));
   }
 
   /// Standard Input-Feld
-  /// 
+  ///
   /// [controller] - Text-Controller
   /// [labelText] - Label für das Feld
   /// [hintText] - Hint-Text
@@ -119,13 +117,10 @@ class AppWidgets {
   }
 
   /// Standard Spacing Widget
-  /// 
+  ///
   /// [height] - Vertikaler Abstand (default: medium)
   /// [width] - Horizontaler Abstand (default: medium)
-  static Widget spacing({
-    double? height,
-    double? width,
-  }) {
+  static Widget spacing({double? height, double? width}) {
     return SizedBox(
       height: height ?? AppTheme.spacingMedium,
       width: width ?? AppTheme.spacingMedium,
@@ -133,7 +128,7 @@ class AppWidgets {
   }
 
   /// Standard Card-Container
-  /// 
+  ///
   /// [child] - Kind-Widget
   /// [padding] - Padding innerhalb der Card
   /// [margin] - Margin um die Card
@@ -158,7 +153,7 @@ class AppWidgets {
   }
 
   /// Standard Section-Header
-  /// 
+  ///
   /// [title] - Titel-Text
   /// [subtitle] - Optionaler Untertitel
   /// [style] - Optionales Text-Style
@@ -170,17 +165,12 @@ class AppWidgets {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: style ?? AppTheme.titleLarge,
-        ),
+        Text(title, style: style ?? AppTheme.titleLarge),
         if (subtitle != null) ...[
           spacing(height: AppTheme.spacingXSmall),
           Text(
             subtitle,
-            style: AppTheme.bodyMedium.copyWith(
-              color: AppTheme.textSecondary,
-            ),
+            style: AppTheme.bodyMedium.copyWith(color: AppTheme.textSecondary),
           ),
         ],
       ],
@@ -188,7 +178,7 @@ class AppWidgets {
   }
 
   /// Loading Indikator
-  /// 
+  ///
   /// [message] - Optionale Lade-Nachricht
   static Widget loading({String? message}) {
     return Center(
@@ -211,13 +201,10 @@ class AppWidgets {
   }
 
   /// Error Widget
-  /// 
+  ///
   /// [message] - Fehler-Nachricht
   /// [onRetry] - Retry-Callback
-  static Widget error({
-    required String message,
-    VoidCallback? onRetry,
-  }) {
+  static Widget error({required String message, VoidCallback? onRetry}) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -230,17 +217,12 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyMedium.copyWith(
-              color: AppTheme.textSecondary,
-            ),
+            style: AppTheme.bodyMedium.copyWith(color: AppTheme.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (onRetry != null) ...[
             spacing(height: AppTheme.spacingMedium),
-            textButton(
-              label: 'Erneut versuchen',
-              onPressed: onRetry,
-            ),
+            textButton(label: 'Erneut versuchen', onPressed: onRetry),
           ],
         ],
       ),
@@ -248,7 +230,7 @@ class AppWidgets {
   }
 
   /// Empty State Widget
-  /// 
+  ///
   /// [message] - Nachricht für leeren Zustand
   /// [icon] - Icon für leeren Zustand
   /// [action] - Optionale Aktion
@@ -269,9 +251,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyLarge.copyWith(
-              color: AppTheme.textSecondary,
-            ),
+            style: AppTheme.bodyLarge.copyWith(color: AppTheme.textSecondary),
             textAlign: TextAlign.center,
           ),
           if (action != null) ...[

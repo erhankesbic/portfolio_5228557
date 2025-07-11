@@ -95,6 +95,8 @@ class AppWidgets {
     String? Function(String?)? validator,
     int? maxLines = 1,
     TextInputType? keyboardType,
+    int? maxLength,
+    void Function(String?)? onSaved,
   }) {
     return TextFormField(
       controller: controller,
@@ -113,6 +115,8 @@ class AppWidgets {
       validator: validator,
       maxLines: maxLines,
       keyboardType: keyboardType,
+      maxLength: maxLength,
+      onSaved: onSaved,
     );
   }
 

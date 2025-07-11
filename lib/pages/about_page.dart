@@ -3,6 +3,7 @@ import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../models/about_data.dart';
 import '../repositories/about_repository.dart';
+import '../widgets/app_scaffold.dart';
 
 /// About-Seite mit persönlichen Informationen
 ///
@@ -28,8 +29,8 @@ class _AboutPageState extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Über mich'), elevation: 0),
+    return AppScaffold(
+      title: 'Über mich',
       body: SingleChildScrollView(
         child: Column(
           children: [

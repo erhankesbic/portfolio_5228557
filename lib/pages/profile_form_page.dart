@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 /// Konstanten für die Profilformular-Seite
 class ProfileFormConstants {
@@ -36,27 +37,30 @@ class ProfileFormPage extends StatefulWidget {
 
 class _ProfileFormPageState extends State<ProfileFormPage> {
   final _formKey = GlobalKey<FormState>();
-  late String _name;
-  late String _email;
-  late String _about;
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _aboutController;
 
   @override
   void initState() {
     super.initState();
-    _name = widget.initialName;
-    _email = widget.initialEmail;
-    _about = widget.initialAbout;
+    _nameController = TextEditingController(text: widget.initialName);
+    _emailController = TextEditingController(text: widget.initialEmail);
+    _aboutController = TextEditingController(text: widget.initialAbout);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _aboutController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profil bearbeiten'),
-        elevation: 0,
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
+    return AppScaffold(
+      title: 'Profil bearbeiten',
       body: Padding(
         padding: const EdgeInsets.all(AppTheme.spacingXLarge),
         child: AppWidgets.card(
@@ -67,42 +71,44 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextFormField(
-                    initialValue: _name,
-                    decoration: const InputDecoration(labelText: 'Name'),
-                    onSaved: (value) => _name = value ?? '',
-                    validator:
-                        (value) =>
-                            value == null || value.isEmpty
-                                ? 'Bitte Namen eingeben'
-                                : null,
-                  ),
-                  AppWidgets.spacing(height: AppTheme.spacingMedium),
-                  TextFormField(
-                    initialValue: _email,
-                    decoration: const InputDecoration(
-                      labelText: 'E-Mail-Adresse',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (value) => _email = value ?? '',
+                  AppWidgets.textField(
+                    controller: _nameController,
+                    labelText: 'Name',
+                    prefixIcon: Icons.person,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Bitte E-Mail eingeben';
+                        return 'Bitte Namen eingeben.';
                       }
-                      final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+                      return null;
+                    },
+                    onSaved: (value) => _nameController.text = value ?? '',
+                  ),
+                  AppWidgets.spacing(height: AppTheme.spacingMedium),
+                  AppWidgets.textField(
+                    controller: _emailController,
+                    labelText: 'E-Mail-Adresse',
+                    prefixIcon: Icons.email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Bitte E-Mail eingeben.';
+                      }
+                      final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$');
                       if (!emailRegex.hasMatch(value)) {
                         return 'Ungültige E-Mail-Adresse';
                       }
                       return null;
                     },
+                    onSaved: (value) => _emailController.text = value ?? '',
                   ),
                   AppWidgets.spacing(height: AppTheme.spacingMedium),
-                  TextFormField(
-                    initialValue: _about,
-                    decoration: const InputDecoration(labelText: 'Über mich'),
+                  AppWidgets.textField(
+                    controller: _aboutController,
+                    labelText: 'Über mich',
+                    prefixIcon: Icons.info_outline,
                     maxLines: 4,
                     maxLength: 500,
-                    onSaved: (value) => _about = value ?? '',
+                    onSaved: (value) => _aboutController.text = value ?? '',
                   ),
                   AppWidgets.spacing(height: AppTheme.spacingXLarge),
                   AppWidgets.textButton(
@@ -111,9 +117,9 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       if (_formKey.currentState?.validate() ?? false) {
                         _formKey.currentState?.save();
                         Navigator.pop(context, {
-                          'name': _name,
-                          'email': _email,
-                          'about': _about,
+                          'name': _nameController.text,
+                          'email': _emailController.text,
+                          'about': _aboutController.text,
                         });
                       }
                     },

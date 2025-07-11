@@ -3,6 +3,7 @@ import '../models/work_item.dart';
 import '../repositories/work_repository.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 /// Portfolio-Seite zur Anzeige aller Arbeiten/Projekte
 ///
@@ -419,8 +420,8 @@ class _WorkPageState extends State<WorkPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Meine Arbeiten'), elevation: 0),
+    return AppScaffold(
+      title: 'Meine Arbeiten',
       body: Column(
         children: [
           // Suchleiste

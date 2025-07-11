@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -47,11 +48,8 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kontakt'),
-        elevation: 0,
-      ),
+    return AppScaffold(
+      title: 'Kontakt',
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTheme.spacingLarge),
         child: Form(

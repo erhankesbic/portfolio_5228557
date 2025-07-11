@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 class SliderPage extends StatefulWidget {
   final double initialValue;
@@ -32,21 +33,8 @@ class _SliderPageState extends State<SliderPage> {
           Navigator.pop(context, _sliderValue);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Slider-Seite'),
-          elevation: 0,
-          backgroundColor: AppTheme.primaryColor,
-          foregroundColor: Colors.white,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () {
-                Navigator.pop(context, _sliderValue);
-              },
-            ),
-          ],
-        ),
+      child: AppScaffold(
+        title: 'Slider-Seite',
         body: Center(
           child: SingleChildScrollView(
             child: Padding(

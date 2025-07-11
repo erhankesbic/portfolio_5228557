@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/user_data.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 class SummaryPage extends StatelessWidget {
   final UserData data;
@@ -11,13 +12,8 @@ class SummaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Zusammenfassung'),
-        elevation: 0,
-        backgroundColor: AppTheme.primaryColor,
-        foregroundColor: Colors.white,
-      ),
+    return AppScaffold(
+      title: 'Zusammenfassung',
       body: Center(
         child: SingleChildScrollView(
           child: Padding(

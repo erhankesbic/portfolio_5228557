@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_scaffold.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool initialNewsletter;
@@ -53,16 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
           _saveSettings();
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Einstellungen'),
-          elevation: 0,
-          backgroundColor: AppTheme.primaryColor,
-          foregroundColor: Colors.white,
-          actions: [
-            IconButton(icon: const Icon(Icons.check), onPressed: _saveSettings),
-          ],
-        ),
+      child: AppScaffold(
+        title: 'Einstellungen',
         body: Center(
           child: SingleChildScrollView(
             child: Padding(

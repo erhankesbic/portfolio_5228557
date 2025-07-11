@@ -7,7 +7,7 @@ import '../repositories/about_repository.dart';
 /// About-Seite mit persönlichen Informationen
 ///
 /// Zeigt eine professionelle Übersicht über Erhan Kesbic mit
-/// Biografie, Skills, Erfahrungen und Kontaktinformationen.
+/// Biografie, Skills und Interessen.
 /// Nutzt Repository Pattern für saubere Datenarchitektur.
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -36,9 +36,7 @@ class _AboutPageState extends State<AboutPage> {
             _buildHeroSection(_aboutData.personalInfo),
             _buildBiographySection(_aboutData.personalInfo),
             _buildSkillsSection(_aboutData.skills),
-            _buildEducationSection(_aboutData.education),
             _buildInterestsSection(_aboutData.interests),
-            _buildContactSection(_aboutData.contactInfo),
             AppWidgets.spacing(height: AppTheme.spacingXLarge),
           ],
         ),
@@ -54,7 +52,7 @@ class _AboutPageState extends State<AboutPage> {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [AppTheme.primaryColor.withValues(alpha: 0.1), Colors.white],
+          colors: [AppTheme.primaryColor.withAlpha(25), Colors.white],
         ),
       ),
       child: Padding(
@@ -72,13 +70,13 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.primaryColor.withValues(alpha: 0.3),
+                    color: AppTheme.primaryColor.withAlpha(75),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
                 ],
               ),
-              child: Icon(Icons.person, size: 80, color: AppTheme.primaryColor),
+              child: Icon(Icons.person, size: 80, color: Colors.white),
             ),
             AppWidgets.spacing(height: AppTheme.spacingLarge),
 
@@ -105,6 +103,7 @@ class _AboutPageState extends State<AboutPage> {
             Wrap(
               spacing: AppTheme.spacingSmall,
               runSpacing: AppTheme.spacingSmall,
+              alignment: WrapAlignment.center,
               children:
                   personalInfo.statusTags
                       .map(
@@ -133,7 +132,7 @@ class _AboutPageState extends State<AboutPage> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.2),
+                    color: Colors.grey.withAlpha(50),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -207,7 +206,7 @@ class _AboutPageState extends State<AboutPage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
+            color: Colors.grey.withAlpha(50),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -233,7 +232,7 @@ class _AboutPageState extends State<AboutPage> {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: skillLevelColor.withValues(alpha: 0.1),
+                  color: skillLevelColor.withAlpha(25),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -273,7 +272,7 @@ class _AboutPageState extends State<AboutPage> {
                           color: AppTheme.surfaceColor,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.2),
+                            color: AppTheme.primaryColor.withAlpha(50),
                           ),
                         ),
                         child: Text(
@@ -292,89 +291,6 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-  /// Erstellt die Bildungs-Sektion
-  Widget _buildEducationSection(List<EducationItem> education) {
-    return Container(
-      margin: const EdgeInsets.all(AppTheme.spacingLarge),
-      child: _buildSection(
-        title: 'Bildungsweg',
-        icon: Icons.school,
-        child: Column(
-          children: education.map((item) => _buildEducationItem(item)).toList(),
-        ),
-      ),
-    );
-  }
-
-  /// Erstellt einen einzelnen Bildungs-Eintrag
-  Widget _buildEducationItem(EducationItem item) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppTheme.spacingMedium),
-      padding: const EdgeInsets.all(AppTheme.spacingMedium),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-        border: Border(
-          left: BorderSide(
-            width: 4,
-            color: item.isCompleted ? Colors.green : AppTheme.secondaryColor,
-          ),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  item.degree,
-                  style: AppTheme.titleMedium.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.primaryColor,
-                  ),
-                ),
-              ),
-              Text(
-                item.isCompleted ? '✅' : '⏰',
-                style: const TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-          AppWidgets.spacing(height: AppTheme.spacingSmall),
-          Text(
-            item.institution,
-            style: AppTheme.bodyMedium.copyWith(
-              fontWeight: FontWeight.w500,
-              color: AppTheme.textPrimary,
-            ),
-          ),
-          AppWidgets.spacing(height: AppTheme.spacingSmall),
-          Text(
-            item.period,
-            style: AppTheme.bodySmall.copyWith(color: AppTheme.textSecondary),
-          ),
-          AppWidgets.spacing(height: AppTheme.spacingMedium),
-          Text(
-            item.description,
-            style: AppTheme.bodySmall.copyWith(
-              height: 1.4,
-              color: AppTheme.textSecondary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   /// Erstellt die Interessen-Sektion
   Widget _buildInterestsSection(List<Interest> interests) {
     return Container(
@@ -386,8 +302,8 @@ class _AboutPageState extends State<AboutPage> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.2,
+            crossAxisCount: 3, // Mehr Elemente pro Zeile
+            childAspectRatio: 1, // Quadratischere Karten
             crossAxisSpacing: AppTheme.spacingMedium,
             mainAxisSpacing: AppTheme.spacingMedium,
           ),
@@ -401,13 +317,13 @@ class _AboutPageState extends State<AboutPage> {
   /// Erstellt eine einzelne Interesse-Karte
   Widget _buildInterestCard(Interest interest) {
     return Container(
-      padding: const EdgeInsets.all(AppTheme.spacingMedium),
+      padding: const EdgeInsets.all(AppTheme.spacingSmall), // Weniger Padding
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
+            color: Colors.grey.withAlpha(50),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -416,8 +332,8 @@ class _AboutPageState extends State<AboutPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(interest.icon, color: AppTheme.primaryColor, size: 32),
-          AppWidgets.spacing(height: AppTheme.spacingSmall),
+          Icon(interest.icon, color: AppTheme.primaryColor, size: 28), // Kleineres Icon
+          AppWidgets.spacing(height: AppTheme.spacingXSmall),
           Text(
             interest.title,
             style: AppTheme.bodyMedium.copyWith(
@@ -426,75 +342,13 @@ class _AboutPageState extends State<AboutPage> {
             ),
             textAlign: TextAlign.center,
           ),
-          AppWidgets.spacing(height: 4),
+          AppWidgets.spacing(height: 2),
           Text(
             interest.subtitle,
             style: AppTheme.bodySmall.copyWith(color: AppTheme.textSecondary),
             textAlign: TextAlign.center,
           ),
         ],
-      ),
-    );
-  }
-
-  /// Erstellt die Kontakt-Sektion
-  Widget _buildContactSection(List<ContactInfo> contactInfo) {
-    return Container(
-      margin: const EdgeInsets.all(AppTheme.spacingLarge),
-      child: _buildSection(
-        title: 'Kontakt',
-        icon: Icons.contact_phone,
-        child: Column(
-          children:
-              contactInfo.map((contact) => _buildContactItem(contact)).toList(),
-        ),
-      ),
-    );
-  }
-
-  /// Erstellt einen einzelnen Kontakt-Eintrag
-  Widget _buildContactItem(ContactInfo contact) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppTheme.spacingSmall),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(AppTheme.spacingSmall),
-          decoration: BoxDecoration(
-            color: AppTheme.primaryColor.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Icon(
-            _getContactIcon(contact.type),
-            color: AppTheme.primaryColor,
-            size: 20,
-          ),
-        ),
-        title: Text(
-          contact.label,
-          style: AppTheme.bodyMedium.copyWith(
-            fontWeight: FontWeight.w500,
-            color: AppTheme.textPrimary,
-          ),
-        ),
-        subtitle: Text(
-          contact.value,
-          style: AppTheme.bodySmall.copyWith(
-            color:
-                contact.isClickable
-                    ? AppTheme.primaryColor
-                    : AppTheme.textSecondary,
-            decoration: contact.isClickable ? TextDecoration.underline : null,
-          ),
-        ),
-        onTap:
-            contact.isClickable
-                ? () => _showContactSnackBar(contact.value)
-                : null,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        tileColor:
-            contact.isClickable
-                ? AppTheme.primaryColor.withValues(alpha: 0.05)
-                : Colors.transparent,
       ),
     );
   }
@@ -527,38 +381,5 @@ class _AboutPageState extends State<AboutPage> {
         child,
       ],
     );
-  }
-
-  /// Gibt das passende Material Icon für den Kontakt-Typ zurück
-  IconData _getContactIcon(ContactType type) {
-    switch (type) {
-      case ContactType.email:
-        return Icons.email;
-      case ContactType.phone:
-        return Icons.phone;
-      case ContactType.website:
-        return Icons.language;
-      case ContactType.github:
-        return Icons.code;
-      case ContactType.linkedin:
-        return Icons.business;
-      case ContactType.university:
-        return Icons.school;
-      case ContactType.location:
-        return Icons.location_on;
-    }
-  }
-
-  /// Zeigt eine Info-SnackBar für Kontakt-Clicks
-  void _showContactSnackBar(String contactValue) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Kontakt: $contactValue'),
-          backgroundColor: AppTheme.primaryColor,
-          duration: const Duration(seconds: 2),
-        ),
-      );
-    }
   }
 }

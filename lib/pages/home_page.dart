@@ -1,111 +1,103 @@
 import 'package:flutter/material.dart';
-import 'profile_form_page.dart';
-import 'slider_page.dart';
-import 'settings_page.dart';
-import 'summary_page.dart';
-import 'work_page.dart';
-import 'about_page.dart';
+import 'package:provider/provider.dart';
 import '../models/user_data.dart';
-import '../repositories/user_repository.dart';
-import '../utils/icon_utils.dart';
+import '../services/navigation_service.dart';
+import '../theme/app_theme.dart';
+import '../viewmodels/home_view_model.dart';
+import '../widgets/app_widgets.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Widget build(BuildContext context) {
+    final viewModel = Provider.of<HomeViewModel>(context);
 
-class _HomePageState extends State<HomePage> {
-  // Repository für Benutzerdaten-Management
-  final UserRepository _userRepository = UserRepository();
-
-  // Getter für einfachen Zugriff auf Benutzerdaten
-  UserData get _currentUser => _userRepository.currentUser;
-
-  /// Aktualisiert die Profildaten des Benutzers
-  void updateProfile(String newName, String newEmail, String newAbout) {
-    setState(() {
-      _userRepository.updateProfile(
-        name: newName,
-        email: newEmail,
-        about: newAbout,
-      );
-    });
-  }
-
-  /// Aktualisiert den Slider-Wert
-  void updateSliderValue(double newValue) {
-    setState(() {
-      _userRepository.updateSliderValue(newValue);
-    });
-  }
-
-  /// Aktualisiert alle Einstellungen auf einmal
-  void updateSettings({
-    required bool newsletter,
-    required bool darkMode,
-    required bool notifications,
-    required bool offlineMode,
-  }) {
-    setState(() {
-      _userRepository.updateSettings(
-        newsletter: newsletter,
-        darkMode: darkMode,
-        notifications: notifications,
-        offlineMode: offlineMode,
-      );
-    });
-  }
-
-  /// Erstellt das Benutzer-Avatar Widget
-  Widget _buildUserAvatar() {
-    return CircleAvatar(
-      radius: 40.0,
-      backgroundColor: Colors.blue.shade100,
-      child: IconUtils.safeIcon(
-        IconUtils.user,
-        size: 48.0,
-        color: Colors.blue.shade700,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mein Portfolio'),
+        elevation: 0,
+        backgroundColor: AppTheme.primaryColor,
+        foregroundColor: Colors.white,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.spacingXLarge),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildUserAvatar(),
+                AppWidgets.spacing(height: AppTheme.spacingLarge),
+                _buildWelcomeText(viewModel.currentUser),
+                _buildUserInfo(viewModel.currentUser),
+                AppWidgets.spacing(height: AppTheme.spacingXLarge),
+                _buildNavigationButtons(context, viewModel),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  /// Erstellt den Willkommens-Text
-  Widget _buildWelcomeText() {
-    final userName = _currentUser.name;
+  Widget _buildUserAvatar() {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.primaryColor.withAlpha(50),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: const Icon(Icons.person, size: 56, color: Colors.white),
+    );
+  }
+
+  Widget _buildWelcomeText(UserData currentUser) {
+    final userName = currentUser.name;
     final welcomeText =
-        userName.isNotEmpty
-            ? 'Willkommen, $userName!'
-            : 'Willkommen im Portfolio';
+        userName.isNotEmpty ? 'Willkommen, $userName!' : 'Willkommen im Portfolio';
 
     return Text(
       welcomeText,
-      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+      style: AppTheme.headlineMedium.copyWith(
+        fontWeight: FontWeight.bold,
+        color: AppTheme.primaryColor,
+      ),
       textAlign: TextAlign.center,
     );
   }
 
-  /// Erstellt die Benutzerinformationen (E-Mail und Beschreibung)
-  Widget _buildUserInfo() {
+  Widget _buildUserInfo(UserData currentUser) {
     return Column(
       children: [
-        if (_currentUser.email.isNotEmpty)
+        if (currentUser.email.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: AppTheme.spacingSmall),
             child: Text(
-              _currentUser.email,
-              style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
+              currentUser.email,
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppTheme.textSecondary,
+              ),
             ),
           ),
-        if (_currentUser.about.isNotEmpty)
+        if (currentUser.about.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: AppTheme.spacingSmall),
             child: Text(
-              _currentUser.about,
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.grey[600],
+              currentUser.about,
+              style: AppTheme.bodySmall.copyWith(
+                color: AppTheme.textSecondary,
                 fontStyle: FontStyle.italic,
               ),
               textAlign: TextAlign.center,
@@ -115,35 +107,82 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// Erstellt einen Navigation-Button
+  Widget _buildNavigationButtons(BuildContext context, HomeViewModel viewModel) {
+    return Wrap(
+      spacing: AppTheme.spacingMedium,
+      runSpacing: AppTheme.spacingMedium,
+      alignment: WrapAlignment.center,
+      children: [
+        _buildNavigationButton(
+          icon: Icons.person,
+          label: 'Profilseite',
+          onPressed: () => _navigateToProfile(context, viewModel),
+        ),
+        _buildNavigationButton(
+          icon: Icons.info_outline,
+          label: 'Über mich',
+          onPressed: () => _navigateToAbout(context),
+        ),
+        _buildNavigationButton(
+          icon: Icons.tune,
+          label: 'Slider-Seite',
+          onPressed: () => _navigateToSlider(context, viewModel),
+        ),
+        _buildNavigationButton(
+          icon: Icons.work,
+          label: 'Meine Arbeiten',
+          onPressed: () => _navigateToWork(context),
+        ),
+        _buildNavigationButton(
+          icon: Icons.settings,
+          label: 'Einstellungen',
+          onPressed: () => _navigateToSettings(context, viewModel),
+        ),
+        _buildNavigationButton(
+          icon: Icons.summarize,
+          label: 'Zusammenfassung',
+          onPressed: () => _navigateToSummary(context, viewModel.currentUser),
+        ),
+        _buildNavigationButton(
+          icon: Icons.contact_mail,
+          label: 'Kontakt',
+          onPressed: () => _navigateToContact(context),
+        ),
+      ],
+    );
+  }
+
   Widget _buildNavigationButton({
     required IconData icon,
     required String label,
     required VoidCallback onPressed,
   }) {
     return ElevatedButton.icon(
-      icon: Icon(icon),
+      icon: Icon(icon, color: AppTheme.primaryColor),
       onPressed: onPressed,
-      label: Text(label),
-      style: ElevatedButton.styleFrom(minimumSize: const Size(160.0, 48.0)),
+      label: Text(
+        label,
+        style: AppTheme.bodyMedium.copyWith(color: AppTheme.primaryColor),
+      ),
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(160.0, 48.0),
+        backgroundColor: AppTheme.surfaceColor,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        side: BorderSide(color: AppTheme.primaryColor.withAlpha(50)),
+      ),
     );
   }
 
-  /// Navigiert zur Profilseite
-  Future<void> _navigateToProfile() async {
-    final result = await Navigator.push(
+  Future<void> _navigateToProfile(BuildContext context, HomeViewModel viewModel) async {
+    final result = await NavigationService.navigateToProfile(
       context,
-      MaterialPageRoute(
-        builder:
-            (_) => ProfileFormPage(
-              initialName: _currentUser.name,
-              initialEmail: _currentUser.email,
-              initialAbout: _currentUser.about,
-            ),
-      ),
+      name: viewModel.currentUser.name,
+      email: viewModel.currentUser.email,
+      about: viewModel.currentUser.about,
     );
-    if (result is Map<String, String>) {
-      updateProfile(
+    if (result != null) {
+      viewModel.updateProfile(
         result['name'] ?? '',
         result['email'] ?? '',
         result['about'] ?? '',
@@ -151,35 +190,26 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  /// Navigiert zur Slider-Seite
-  Future<void> _navigateToSlider() async {
-    final result = await Navigator.push(
+  Future<void> _navigateToSlider(BuildContext context, HomeViewModel viewModel) async {
+    final result = await NavigationService.navigateToSlider(
       context,
-      MaterialPageRoute(
-        builder: (_) => SliderPage(initialValue: _currentUser.sliderValue),
-      ),
+      currentValue: viewModel.currentUser.sliderValue,
     );
-    if (result is double) {
-      updateSliderValue(result);
+    if (result != null) {
+      viewModel.updateSliderValue(result);
     }
   }
 
-  /// Navigiert zu den Einstellungen
-  Future<void> _navigateToSettings() async {
-    final result = await Navigator.push(
+  Future<void> _navigateToSettings(BuildContext context, HomeViewModel viewModel) async {
+    final result = await NavigationService.navigateToSettings(
       context,
-      MaterialPageRoute(
-        builder:
-            (_) => SettingsPage(
-              initialNewsletter: _currentUser.newsletter,
-              initialDarkMode: _currentUser.darkMode,
-              initialNotifications: _currentUser.notifications,
-              initialOfflineMode: _currentUser.offlineMode,
-            ),
-      ),
+      newsletter: viewModel.currentUser.newsletter,
+      darkMode: viewModel.currentUser.darkMode,
+      notifications: viewModel.currentUser.notifications,
+      offlineMode: viewModel.currentUser.offlineMode,
     );
-    if (result is Map) {
-      updateSettings(
+    if (result != null) {
+      viewModel.updateSettings(
         newsletter: result['newsletter'] ?? false,
         darkMode: result['darkMode'] ?? false,
         notifications: result['notifications'] ?? false,
@@ -188,94 +218,19 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  /// Navigiert zur Zusammenfassungsseite
-  void _navigateToSummary() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => SummaryPage(data: _currentUser)),
-    );
+  void _navigateToSummary(BuildContext context, UserData currentUser) {
+    NavigationService.navigateToSummary(context, userData: currentUser);
   }
 
-  /// Navigiert zur Work-Portfolio-Seite
-  void _navigateToWork() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const WorkPage()),
-    );
+  void _navigateToWork(BuildContext context) {
+    NavigationService.navigateToWork(context);
   }
 
-  /// Navigiert zur About-Seite
-  void _navigateToAbout() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const AboutPage()),
-    );
+  void _navigateToAbout(BuildContext context) {
+    NavigationService.navigateToAbout(context);
   }
 
-  /// Erstellt alle Navigation-Buttons
-  Widget _buildNavigationButtons() {
-    return Wrap(
-      spacing: 16.0,
-      runSpacing: 16.0,
-      alignment: WrapAlignment.center,
-      children: [
-        _buildNavigationButton(
-          icon: IconUtils.profile,
-          label: 'Profilseite',
-          onPressed: _navigateToProfile,
-        ),
-        _buildNavigationButton(
-          icon: Icons.person,
-          label: 'Über mich',
-          onPressed: _navigateToAbout,
-        ),
-        _buildNavigationButton(
-          icon: IconUtils.slider,
-          label: 'Slider-Seite',
-          onPressed: _navigateToSlider,
-        ),
-        _buildNavigationButton(
-          icon: Icons.work,
-          label: 'Meine Arbeiten',
-          onPressed: _navigateToWork,
-        ),
-        _buildNavigationButton(
-          icon: IconUtils.settings,
-          label: 'Einstellungen',
-          onPressed: _navigateToSettings,
-        ),
-        _buildNavigationButton(
-          icon: IconUtils.summary,
-          label: 'Zusammenfassung',
-          onPressed: _navigateToSummary,
-        ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Mein Portfolio')),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildUserAvatar(),
-                const SizedBox(height: 24.0),
-                _buildWelcomeText(),
-                _buildUserInfo(),
-                const SizedBox(height: 36.0),
-                _buildNavigationButtons(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+  void _navigateToContact(BuildContext context) {
+    NavigationService.navigateToContact(context);
   }
 }

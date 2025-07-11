@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../pages/about_page.dart';
+import '../pages/contact_page.dart';
 import '../pages/profile_form_page.dart';
-import '../pages/slider_page.dart';
 import '../pages/settings_page.dart';
+import '../pages/slider_page.dart';
 import '../pages/summary_page.dart';
+import '../pages/work_page.dart';
 import '../models/user_data.dart';
 
 /// Service für die Navigation zwischen Seiten
@@ -95,6 +98,36 @@ class NavigationService {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => SummaryPage(data: userData)),
+    );
+  }
+
+  /// Navigiert zur Work-Portfolio-Seite
+  ///
+  /// [context] - Build Context für Navigation
+  static Future<void> navigateToWork(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const WorkPage()),
+    );
+  }
+
+  /// Navigiert zur About-Seite
+  ///
+  /// [context] - Build Context für Navigation
+  static Future<void> navigateToAbout(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AboutPage()),
+    );
+  }
+
+  /// Navigiert zur Kontakt-Seite
+  ///
+  /// [context] - Build Context für Navigation
+  static Future<void> navigateToContact(BuildContext context) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ContactPage()),
     );
   }
 }

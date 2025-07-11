@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
+import '../widgets/app_widgets.dart';
 
 class SettingsPage extends StatefulWidget {
   final bool initialNewsletter;
@@ -54,141 +56,71 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Einstellungen'),
+          elevation: 0,
+          backgroundColor: AppTheme.primaryColor,
+          foregroundColor: Colors.white,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: _saveSettings,
-            ),
+            IconButton(icon: const Icon(Icons.check), onPressed: _saveSettings),
           ],
         ),
         body: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(AppTheme.spacingXLarge),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.only(bottom: 24),
+                  AppWidgets.card(
+                    margin: const EdgeInsets.only(
+                      bottom: AppTheme.spacingXLarge,
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(AppTheme.spacingLarge),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.email, color: Colors.blue, size: 24),
-                              const SizedBox(width: 8),
-                              const Text('Newsletter', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          CheckboxListTile(
-                            title: const Text('Newsletter abonnieren'),
+                          _buildSwitchTile(
+                            icon: Icons.email,
+                            title: 'Newsletter abonnieren',
                             value: isNewsletterSubscribed,
-                            onChanged: (value) {
-                              setState(() {
-                                isNewsletterSubscribed = value!;
-                              });
-                            },
+                            onChanged:
+                                (val) => setState(
+                                  () => isNewsletterSubscribed = val,
+                                ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.only(bottom: 24),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.notifications, color: Colors.deepPurple, size: 24),
-                              const SizedBox(width: 8),
-                              const Text('Benachrichtigungen', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          CheckboxListTile(
-                            title: const Text('Benachrichtigungen aktivieren'),
-                            value: isNotificationsEnabled,
-                            onChanged: (value) {
-                              setState(() {
-                                isNotificationsEnabled = value!;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.only(bottom: 24),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.dark_mode, color: Colors.teal, size: 24),
-                              const SizedBox(width: 8),
-                              const Text('Darstellung', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                          SwitchListTile(
-                            title: const Text('Dunkler Modus'),
+                          AppWidgets.spacing(height: AppTheme.spacingMedium),
+                          _buildSwitchTile(
+                            icon: Icons.dark_mode,
+                            title: 'Dark Mode',
                             value: isDarkMode,
-                            onChanged: (value) {
-                              setState(() {
-                                isDarkMode = value;
-                              });
-                            },
+                            onChanged:
+                                (val) => setState(() => isDarkMode = val),
                           ),
-                          SwitchListTile(
-                            title: const Text('Offline-Modus'),
+                          AppWidgets.spacing(height: AppTheme.spacingMedium),
+                          _buildSwitchTile(
+                            icon: Icons.notifications,
+                            title: 'Benachrichtigungen',
+                            value: isNotificationsEnabled,
+                            onChanged:
+                                (val) => setState(
+                                  () => isNotificationsEnabled = val,
+                                ),
+                          ),
+                          AppWidgets.spacing(height: AppTheme.spacingMedium),
+                          _buildSwitchTile(
+                            icon: Icons.offline_bolt,
+                            title: 'Offline-Modus',
                             value: isOfflineMode,
-                            onChanged: (value) {
-                              setState(() {
-                                isOfflineMode = value;
-                              });
-                            },
+                            onChanged:
+                                (val) => setState(() => isOfflineMode = val),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.save),
-                    label: const Text('Einstellungen speichern'),
-                    style: ElevatedButton.styleFrom(minimumSize: const Size(180, 48)),
+                  AppWidgets.textButton(
+                    label: 'Speichern',
                     onPressed: _saveSettings,
-                  ),
-                  const SizedBox(height: 32),
-                  Card(
-                    elevation: 2,
-                    color: Colors.grey[50],
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Aktuelle Auswahl:',
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          const SizedBox(height: 8),
-                          Text('Newsletter: ${isNewsletterSubscribed ? "Abonniert" : "Nicht abonniert"}'),
-                          Text('Benachrichtigungen: ${isNotificationsEnabled ? "Aktiviert" : "Deaktiviert"}'),
-                          Text('Dunkler Modus: ${isDarkMode ? "Aktiviert" : "Deaktiviert"}'),
-                          Text('Offline-Modus: ${isOfflineMode ? "Aktiviert" : "Deaktiviert"}'),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
@@ -196,6 +128,26 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  /// Hilfsmethode für Switches
+  Widget _buildSwitchTile({
+    required IconData icon,
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return SwitchListTile(
+      secondary: Icon(icon, color: AppTheme.primaryColor),
+      title: Text(
+        title,
+        style: AppTheme.bodyLarge.copyWith(color: AppTheme.textPrimary),
+      ),
+      value: value,
+      onChanged: onChanged,
+      activeColor: AppTheme.primaryColor,
+      contentPadding: EdgeInsets.zero,
     );
   }
 }

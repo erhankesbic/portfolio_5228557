@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
+import '../widgets/app_widgets.dart';
 
 /// Konstanten für die Profilformular-Seite
 class ProfileFormConstants {
@@ -49,85 +51,76 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profil bearbeiten')),
+      appBar: AppBar(
+        title: const Text('Profil bearbeiten'),
+        elevation: 0,
+        backgroundColor: AppTheme.primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                initialValue: _name,
-                decoration: const InputDecoration(labelText: 'Name'),
-                onSaved: (value) => _name = value ?? '',
-                validator:
-                    (value) =>
-                        value == null || value.isEmpty
-                            ? 'Bitte Namen eingeben'
-                            : null,
+        padding: const EdgeInsets.all(AppTheme.spacingXLarge),
+        child: AppWidgets.card(
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.spacingLarge),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    initialValue: _name,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                    onSaved: (value) => _name = value ?? '',
+                    validator:
+                        (value) =>
+                            value == null || value.isEmpty
+                                ? 'Bitte Namen eingeben'
+                                : null,
+                  ),
+                  AppWidgets.spacing(height: AppTheme.spacingMedium),
+                  TextFormField(
+                    initialValue: _email,
+                    decoration: const InputDecoration(
+                      labelText: 'E-Mail-Adresse',
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    onSaved: (value) => _email = value ?? '',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Bitte E-Mail eingeben';
+                      }
+                      final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Ungültige E-Mail-Adresse';
+                      }
+                      return null;
+                    },
+                  ),
+                  AppWidgets.spacing(height: AppTheme.spacingMedium),
+                  TextFormField(
+                    initialValue: _about,
+                    decoration: const InputDecoration(labelText: 'Über mich'),
+                    maxLines: 4,
+                    maxLength: 500,
+                    onSaved: (value) => _about = value ?? '',
+                  ),
+                  AppWidgets.spacing(height: AppTheme.spacingXLarge),
+                  AppWidgets.textButton(
+                    label: 'Speichern',
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() ?? false) {
+                        _formKey.currentState?.save();
+                        Navigator.pop(context, {
+                          'name': _name,
+                          'email': _email,
+                          'about': _about,
+                        });
+                      }
+                    },
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                initialValue: _email,
-                decoration: const InputDecoration(labelText: 'E-Mail-Adresse'),
-                keyboardType: TextInputType.emailAddress,
-                onSaved: (value) => _email = value ?? '',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Bitte E-Mail eingeben';
-                  }
-                  final emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
-                  if (!emailRegex.hasMatch(value)) {
-                    return 'Bitte gültige E-Mail-Adresse eingeben';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                initialValue: _about,
-                decoration: const InputDecoration(
-                  labelText: 'Über mich',
-                  alignLabelWithHint: true,
-                ),
-                maxLines: 5,
-                onSaved: (value) => _about = value ?? '',
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  final isValid = _formKey.currentState?.validate() ?? false;
-                  if (isValid) {
-                    _formKey.currentState?.save();
-
-                    showDialog(
-                      context: context,
-                      builder:
-                          (context) => AlertDialog(
-                            title: const Text('Eingegebene Daten'),
-                            content: Text(
-                              'Name: $_name\nEmail: $_email\nÜber mich: $_about',
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context); // Dialog schließen
-                                  Navigator.pop(context, {
-                                    'name': _name,
-                                    'email': _email,
-                                    'about': _about,
-                                  }); // Seite schließen und Daten zurückgeben
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                    );
-                  }
-                },
-                child: const Text('Speichern'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

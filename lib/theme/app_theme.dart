@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Zentrale Theme-Verwaltung für die gesamte App
 ///
@@ -132,18 +133,26 @@ class AppTheme {
   /// Erstellt das Light Theme für die App
   static ThemeData get lightTheme {
     return ThemeData(
-      useMaterial3: true,
+      useMaterial3: false, // Material 2 für bessere Icon-Kompatibilität
+      primarySwatch: Colors.blue,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         brightness: Brightness.light,
       ),
 
+      // Verwende Roboto Font über Google Fonts für bessere Kompatibilität
+      textTheme: GoogleFonts.robotoTextTheme(),
+
+      // Icon Theme - Stelle sicher, dass Material Icons verwendet werden
+      iconTheme: const IconThemeData(color: textPrimary, size: iconMedium),
+
       // AppBar Theme
       appBarTheme: const AppBarTheme(
-        elevation: 0,
+        elevation: 4.0, // Etwas Elevation für Material 2
         centerTitle: true,
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white, size: iconMedium),
         titleTextStyle: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
@@ -225,18 +234,27 @@ class AppTheme {
   /// Erstellt das Dark Theme für die App
   static ThemeData get darkTheme {
     return ThemeData(
-      useMaterial3: true,
+      useMaterial3: false, // Material 2 für bessere Icon-Kompatibilität
+      primarySwatch: Colors.blue,
+      brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         brightness: Brightness.dark,
       ),
 
+      // Verwende Roboto Font über Google Fonts für bessere Kompatibilität
+      textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+
+      // Icon Theme für Dark Mode
+      iconTheme: const IconThemeData(color: Colors.white, size: iconMedium),
+
       // AppBar Theme
       appBarTheme: const AppBarTheme(
-        elevation: 0,
+        elevation: 4.0, // Etwas Elevation für Material 2
         centerTitle: true,
         backgroundColor: backgroundDark,
         foregroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white, size: iconMedium),
         titleTextStyle: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w600,

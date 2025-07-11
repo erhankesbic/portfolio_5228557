@@ -10,9 +10,7 @@ class SummaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Zusammenfassung'),
-      ),
+      appBar: AppBar(title: const Text('Zusammenfassung')),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -30,21 +28,41 @@ class SummaryPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.person, color: Colors.blue, size: 28),
+                            const Icon(
+                              Icons.person,
+                              color: Colors.blue,
+                              size: 28,
+                            ),
                             const SizedBox(width: 10),
                             const Text(
                               'Profilinformationen',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        Text('Name: ${data.name}', style: const TextStyle(fontSize: 16)),
-                        Text('E-Mail: ${data.email}', style: const TextStyle(fontSize: 16)),
+                        Text(
+                          'Name: ${data.name}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          'E-Mail: ${data.email}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
                         if (data.about.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 6.0),
-                            child: Text('Über mich: ${data.about}', style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic, color: Colors.black87)),
+                            child: Text(
+                              'Über mich: ${data.about}',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black87,
+                              ),
+                            ),
                           ),
                       ],
                     ),
@@ -60,16 +78,26 @@ class SummaryPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.tune, color: Colors.deepPurple, size: 28),
+                            const Icon(
+                              Icons.tune,
+                              color: Colors.deepPurple,
+                              size: 28,
+                            ),
                             const SizedBox(width: 10),
                             const Text(
                               'Slider-Wert',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        Text('Wert: ${data.sliderValue.toInt()}', style: const TextStyle(fontSize: 16)),
+                        Text(
+                          'Wert: ${data.sliderValue.toInt()}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ],
                     ),
                   ),
@@ -83,19 +111,38 @@ class SummaryPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.settings, color: Colors.teal, size: 28),
+                            const Icon(
+                              Icons.settings,
+                              color: Colors.teal,
+                              size: 28,
+                            ),
                             const SizedBox(width: 10),
                             const Text(
                               'Einstellungen',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        Text('Newsletter: ${data.newsletter ? "Abonniert" : "Nicht abonniert"}', style: const TextStyle(fontSize: 16)),
-                        Text('Dunkler Modus: ${data.darkMode ? "Aktiviert" : "Deaktiviert"}', style: const TextStyle(fontSize: 16)),
-                        Text('Benachrichtigungen: ${data.notifications ? "Aktiviert" : "Deaktiviert"}', style: const TextStyle(fontSize: 16)),
-                        Text('Offline-Modus: ${data.offlineMode ? "Aktiviert" : "Deaktiviert"}', style: const TextStyle(fontSize: 16)),
+                        Text(
+                          'Newsletter: ${data.newsletter ? "Abonniert" : "Nicht abonniert"}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          'Dunkler Modus: ${data.darkMode ? "Aktiviert" : "Deaktiviert"}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          'Benachrichtigungen: ${data.notifications ? "Aktiviert" : "Deaktiviert"}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          'Offline-Modus: ${data.offlineMode ? "Aktiviert" : "Deaktiviert"}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ],
                     ),
                   ),

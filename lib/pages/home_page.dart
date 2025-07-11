@@ -5,9 +5,7 @@ import 'settings_page.dart';
 import 'summary_page.dart';
 import '../models/user_data.dart';
 import '../repositories/user_repository.dart';
-import '../constants/app_constants.dart';
-import '../theme/app_theme.dart';
-import '../widgets/app_widgets.dart';
+import '../utils/icon_utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -60,7 +58,15 @@ class _HomePageState extends State<HomePage> {
 
   /// Erstellt das Benutzer-Avatar Widget
   Widget _buildUserAvatar() {
-    return AppWidgets.userAvatar();
+    return CircleAvatar(
+      radius: 40.0,
+      backgroundColor: Colors.blue.shade100,
+      child: IconUtils.safeIcon(
+        IconUtils.user,
+        size: 48.0,
+        color: Colors.blue.shade700,
+      ),
+    );
   }
 
   /// Erstellt den Willkommens-Text
@@ -68,12 +74,12 @@ class _HomePageState extends State<HomePage> {
     final userName = _currentUser.name;
     final welcomeText =
         userName.isNotEmpty
-            ? '${AppConstants.welcomePersonalized}, $userName!'
-            : AppConstants.welcomeDefault;
+            ? 'Willkommen, $userName!'
+            : 'Willkommen im Portfolio';
 
     return Text(
       welcomeText,
-      style: AppTheme.headlineSmall,
+      style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
       textAlign: TextAlign.center,
     );
   }
@@ -84,21 +90,20 @@ class _HomePageState extends State<HomePage> {
       children: [
         if (_currentUser.email.isNotEmpty)
           Padding(
-            padding: EdgeInsets.only(top: AppTheme.spacingSmall),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               _currentUser.email,
-              style: AppTheme.titleMedium.copyWith(
-                color: AppTheme.textSecondary,
-              ),
+              style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
             ),
           ),
         if (_currentUser.about.isNotEmpty)
           Padding(
-            padding: EdgeInsets.only(top: AppTheme.spacingSmall),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(
               _currentUser.about,
-              style: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.textSecondary,
+              style: TextStyle(
+                fontSize: 15.0,
+                color: Colors.grey[600],
                 fontStyle: FontStyle.italic,
               ),
               textAlign: TextAlign.center,
@@ -114,10 +119,11 @@ class _HomePageState extends State<HomePage> {
     required String label,
     required VoidCallback onPressed,
   }) {
-    return AppWidgets.iconButton(
-      icon: icon,
-      label: label,
+    return ElevatedButton.icon(
+      icon: Icon(icon),
       onPressed: onPressed,
+      label: Text(label),
+      style: ElevatedButton.styleFrom(minimumSize: const Size(160.0, 48.0)),
     );
   }
 
@@ -191,28 +197,28 @@ class _HomePageState extends State<HomePage> {
   /// Erstellt alle Navigation-Buttons
   Widget _buildNavigationButtons() {
     return Wrap(
-      spacing: AppTheme.spacingMedium,
-      runSpacing: AppTheme.spacingMedium,
+      spacing: 16.0,
+      runSpacing: 16.0,
       alignment: WrapAlignment.center,
       children: [
         _buildNavigationButton(
-          icon: Icons.edit,
-          label: AppConstants.profilePageLabel,
+          icon: IconUtils.profile,
+          label: 'Profilseite',
           onPressed: _navigateToProfile,
         ),
         _buildNavigationButton(
-          icon: Icons.tune,
-          label: AppConstants.sliderPageLabel,
+          icon: IconUtils.slider,
+          label: 'Slider-Seite',
           onPressed: _navigateToSlider,
         ),
         _buildNavigationButton(
-          icon: Icons.settings,
-          label: AppConstants.settingsPageLabel,
+          icon: IconUtils.settings,
+          label: 'Einstellungen',
           onPressed: _navigateToSettings,
         ),
         _buildNavigationButton(
-          icon: Icons.summarize,
-          label: AppConstants.summaryPageLabel,
+          icon: IconUtils.summary,
+          label: 'Zusammenfassung',
           onPressed: _navigateToSummary,
         ),
       ],
@@ -222,20 +228,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(AppConstants.appTitle)),
+      appBar: AppBar(title: const Text('Mein Portfolio')),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(AppTheme.spacingXLarge),
+            padding: const EdgeInsets.all(32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildUserAvatar(),
-                AppWidgets.spacing(height: AppTheme.spacingLarge),
+                const SizedBox(height: 24.0),
                 _buildWelcomeText(),
                 _buildUserInfo(),
-                AppWidgets.spacing(height: AppTheme.spacingXXLarge),
+                const SizedBox(height: 36.0),
                 _buildNavigationButtons(),
               ],
             ),

@@ -51,12 +51,19 @@ class _SliderPageState extends State<SliderPage> {
                     children: [
                       const Text(
                         'Wähle einen Wert',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       Text(
                         'Wert: ${_sliderValue.toInt()}',
-                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
                       ),
                       Slider(
                         min: 0,

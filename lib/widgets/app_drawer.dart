@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../theme/app_theme.dart';
+import '../services/navigation_service.dart';
+import '../viewmodels/home_view_model.dart';
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = Provider.of<HomeViewModel>(context);
+    final currentUser = viewModel.currentUser;
+
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  currentUser.name.isNotEmpty
+                      ? currentUser.name
+                      : 'Gast',
+                  style: AppTheme.headlineMedium.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  currentUser.email.isNotEmpty
+                      ? currentUser.email
+                      : 'Keine E-Mail hinterlegt',
+                  style: AppTheme.bodyMedium.copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          _buildDrawerItem(
+            icon: Icons.home,
+            title: 'Startseite',
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, '/');
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.work,
+            title: 'Meine Arbeiten',
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateToWork(context);
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.info_outline,
+            title: 'Über mich',
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateToAbout(context);
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.contact_mail,
+            title: 'Kontakt',
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateToContact(context);
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.settings,
+            title: 'Einstellungen',
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateToSettings(
+                context,
+                newsletter: currentUser.newsletter,
+                darkMode: currentUser.darkMode,
+                notifications: currentUser.notifications,
+                offlineMode: currentUser.offlineMode,
+              );
+            },
+          ),
+          _buildDrawerItem(
+            icon: Icons.account_circle,
+            title: 'Profil',
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateToSummary(
+                context,
+                userData: currentUser,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({IconData? icon, required String title, VoidCallback? onTap}) {
+    return ListTile(
+      leading: icon != null ? Icon(icon, color: AppTheme.primaryColor) : null,
+      title: Text(title, style: AppTheme.bodyLarge),
+      onTap: onTap,
+    );
+  }
+}

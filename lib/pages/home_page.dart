@@ -5,6 +5,7 @@ import '../services/navigation_service.dart';
 import '../theme/app_theme.dart';
 import '../viewmodels/home_view_model.dart';
 import '../widgets/app_widgets.dart';
+import '../widgets/app_drawer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,14 +13,70 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomeViewModel>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 600;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mein Portfolio'),
         elevation: 0,
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: Colors.white,
+        automaticallyImplyLeading: isSmallScreen,
+        title: isSmallScreen
+            ? const Text('Mein Portfolio')
+            : Row(
+                children: [
+                  // Left: Logo/Title
+                  GestureDetector(
+                    onTap: () {
+                      // Navigiert zur Startseite (sich selbst)
+                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                    },
+                    child: Text(
+                      'Mein Portfolio',
+                      style: AppTheme.headlineMedium.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  // Middle: Navigation Links - use Expanded to take available space
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center, // Center the links
+                      children: [
+                        Flexible(
+                          child: _buildAppBarNavLink(
+                            label: 'Meine Arbeiten',
+                            onPressed: () => NavigationService.navigateToWork(context),
+                          ),
+                        ),
+                        Flexible(
+                          child: _buildAppBarNavLink(
+                            label: 'Über mich',
+                            onPressed: () => NavigationService.navigateToAbout(context),
+                          ),
+                        ),
+                        Flexible(
+                          child: _buildAppBarNavLink(
+                            label: 'Kontakt',
+                            onPressed: () => NavigationService.navigateToContact(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+        actions: isSmallScreen
+            ? []
+            : [
+                _buildSettingsIcon(context, viewModel),
+                _buildProfileIcon(context, viewModel),
+                AppWidgets.spacing(width: AppTheme.spacingMedium),
+              ],
       ),
+      drawer: isSmallScreen ? const AppDrawer() : null,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -33,12 +90,49 @@ class HomePage extends StatelessWidget {
                 _buildWelcomeText(viewModel.currentUser),
                 _buildUserInfo(viewModel.currentUser),
                 AppWidgets.spacing(height: AppTheme.spacingXLarge),
-                _buildNavigationButtons(context, viewModel),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildAppBarNavLink({required String label, required VoidCallback onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMedium),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          label,
+          style: AppTheme.bodyLarge.copyWith(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingsIcon(BuildContext context, HomeViewModel viewModel) {
+    return IconButton(
+      icon: const Icon(Icons.settings, color: Colors.white, size: 30),
+      onPressed: () => NavigationService.navigateToSettings(
+        context,
+        newsletter: viewModel.currentUser.newsletter,
+        darkMode: viewModel.currentUser.darkMode,
+        notifications: viewModel.currentUser.notifications,
+        offlineMode: viewModel.currentUser.offlineMode,
+      ),
+      tooltip: 'Einstellungen',
+    );
+  }
+
+  Widget _buildProfileIcon(BuildContext context, HomeViewModel viewModel) {
+    return IconButton(
+      icon: const Icon(Icons.account_circle, color: Colors.white, size: 30),
+      onPressed: () => NavigationService.navigateToSummary(
+        context,
+        userData: viewModel.currentUser,
+      ),
+      tooltip: 'Zusammenfassung',
     );
   }
 
@@ -105,132 +199,5 @@ class HomePage extends StatelessWidget {
           ),
       ],
     );
-  }
-
-  Widget _buildNavigationButtons(BuildContext context, HomeViewModel viewModel) {
-    return Wrap(
-      spacing: AppTheme.spacingMedium,
-      runSpacing: AppTheme.spacingMedium,
-      alignment: WrapAlignment.center,
-      children: [
-        _buildNavigationButton(
-          icon: Icons.person,
-          label: 'Profilseite',
-          onPressed: () => _navigateToProfile(context, viewModel),
-        ),
-        _buildNavigationButton(
-          icon: Icons.info_outline,
-          label: 'Über mich',
-          onPressed: () => _navigateToAbout(context),
-        ),
-        _buildNavigationButton(
-          icon: Icons.tune,
-          label: 'Slider-Seite',
-          onPressed: () => _navigateToSlider(context, viewModel),
-        ),
-        _buildNavigationButton(
-          icon: Icons.work,
-          label: 'Meine Arbeiten',
-          onPressed: () => _navigateToWork(context),
-        ),
-        _buildNavigationButton(
-          icon: Icons.settings,
-          label: 'Einstellungen',
-          onPressed: () => _navigateToSettings(context, viewModel),
-        ),
-        _buildNavigationButton(
-          icon: Icons.summarize,
-          label: 'Zusammenfassung',
-          onPressed: () => _navigateToSummary(context, viewModel.currentUser),
-        ),
-        _buildNavigationButton(
-          icon: Icons.contact_mail,
-          label: 'Kontakt',
-          onPressed: () => _navigateToContact(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNavigationButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return ElevatedButton.icon(
-      icon: Icon(icon, color: AppTheme.primaryColor),
-      onPressed: onPressed,
-      label: Text(
-        label,
-        style: AppTheme.bodyMedium.copyWith(color: AppTheme.primaryColor),
-      ),
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(160.0, 48.0),
-        backgroundColor: AppTheme.surfaceColor,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        side: BorderSide(color: AppTheme.primaryColor.withAlpha(50)),
-      ),
-    );
-  }
-
-  Future<void> _navigateToProfile(BuildContext context, HomeViewModel viewModel) async {
-    final result = await NavigationService.navigateToProfile(
-      context,
-      name: viewModel.currentUser.name,
-      email: viewModel.currentUser.email,
-      about: viewModel.currentUser.about,
-    );
-    if (result != null) {
-      viewModel.updateProfile(
-        result['name'] ?? '',
-        result['email'] ?? '',
-        result['about'] ?? '',
-      );
-    }
-  }
-
-  Future<void> _navigateToSlider(BuildContext context, HomeViewModel viewModel) async {
-    final result = await NavigationService.navigateToSlider(
-      context,
-      currentValue: viewModel.currentUser.sliderValue,
-    );
-    if (result != null) {
-      viewModel.updateSliderValue(result);
-    }
-  }
-
-  Future<void> _navigateToSettings(BuildContext context, HomeViewModel viewModel) async {
-    final result = await NavigationService.navigateToSettings(
-      context,
-      newsletter: viewModel.currentUser.newsletter,
-      darkMode: viewModel.currentUser.darkMode,
-      notifications: viewModel.currentUser.notifications,
-      offlineMode: viewModel.currentUser.offlineMode,
-    );
-    if (result != null) {
-      viewModel.updateSettings(
-        newsletter: result['newsletter'] ?? false,
-        darkMode: result['darkMode'] ?? false,
-        notifications: result['notifications'] ?? false,
-        offlineMode: result['offlineMode'] ?? false,
-      );
-    }
-  }
-
-  void _navigateToSummary(BuildContext context, UserData currentUser) {
-    NavigationService.navigateToSummary(context, userData: currentUser);
-  }
-
-  void _navigateToWork(BuildContext context) {
-    NavigationService.navigateToWork(context);
-  }
-
-  void _navigateToAbout(BuildContext context) {
-    NavigationService.navigateToAbout(context);
-  }
-
-  void _navigateToContact(BuildContext context) {
-    NavigationService.navigateToContact(context);
   }
 }

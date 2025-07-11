@@ -60,8 +60,11 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                 initialValue: _name,
                 decoration: const InputDecoration(labelText: 'Name'),
                 onSaved: (value) => _name = value ?? '',
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Bitte Namen eingeben' : null,
+                validator:
+                    (value) =>
+                        value == null || value.isEmpty
+                            ? 'Bitte Namen eingeben'
+                            : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -99,23 +102,26 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
 
                     showDialog(
                       context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Eingegebene Daten'),
-                        content: Text('Name: $_name\nEmail: $_email\nÜber mich: $_about'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context); // Dialog schließen
-                              Navigator.pop(context, {
-                                'name': _name,
-                                'email': _email,
-                                'about': _about,
-                              }); // Seite schließen und Daten zurückgeben
-                            },
-                            child: const Text('OK'),
+                      builder:
+                          (context) => AlertDialog(
+                            title: const Text('Eingegebene Daten'),
+                            content: Text(
+                              'Name: $_name\nEmail: $_email\nÜber mich: $_about',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Dialog schließen
+                                  Navigator.pop(context, {
+                                    'name': _name,
+                                    'email': _email,
+                                    'about': _about,
+                                  }); // Seite schließen und Daten zurückgeben
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
                     );
                   }
                 },

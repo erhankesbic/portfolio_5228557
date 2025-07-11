@@ -1,5 +1,5 @@
 /// Modell-Klasse für Benutzerdaten
-/// 
+///
 /// Enthält alle relevanten Informationen eines Benutzers:
 /// - Persönliche Daten (Name, E-Mail, Beschreibung)
 /// - App-Einstellungen (Newsletter, Dark Mode, etc.)
@@ -7,25 +7,25 @@
 class UserData {
   /// Vollständiger Name des Benutzers
   final String name;
-  
+
   /// E-Mail-Adresse des Benutzers
   final String email;
-  
+
   /// Kurze Beschreibung über den Benutzer
   final String about;
-  
+
   /// Aktueller Slider-Wert (0-100)
   final double sliderValue;
-  
+
   /// Newsletter-Abonnement Status
   final bool newsletter;
-  
+
   /// Dark Mode Einstellung
   final bool darkMode;
-  
+
   /// Benachrichtigungen aktiviert
   final bool notifications;
-  
+
   /// Offline-Modus aktiviert
   final bool offlineMode;
 
@@ -65,8 +65,7 @@ class UserData {
   }
 
   /// Prüft ob alle persönlichen Daten ausgefüllt sind
-  bool get hasCompleteProfile => 
-      name.isNotEmpty && email.isNotEmpty;
+  bool get hasCompleteProfile => name.isNotEmpty && email.isNotEmpty;
 
   /// Gibt die Anzahl aktivierter Einstellungen zurück
   int get activeSettingsCount {
@@ -86,7 +85,7 @@ class UserData {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    
+
     return other is UserData &&
         other.name == name &&
         other.email == email &&

@@ -4,18 +4,10 @@ import 'slider_page.dart';
 import 'settings_page.dart';
 import 'summary_page.dart';
 import 'user_data.dart';
-
-// Konstanten für bessere Wartbarkeit
-class AppConstants {
-  static const double avatarRadius = 40.0;
-  static const double mainPadding = 32.0;
-  static const double buttonSpacing = 16.0;
-  static const double buttonHeight = 48.0;
-  static const double buttonWidth = 160.0;
-  static const double headerFontSize = 22.0;
-  static const double subHeaderFontSize = 16.0;
-  static const double smallFontSize = 15.0;
-}
+import '../repositories/user_repository.dart';
+import '../constants/app_constants.dart';
+import '../theme/app_theme.dart';
+import '../widgets/app_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,29 +17,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Zustandsvariablen für Benutzerdaten
-  String name = '';
-  String email = '';
-  String about = '';
-  double sliderValue = 50.0;
-  bool newsletter = false;
-  bool darkMode = false;
-  bool notifications = false;
-  bool offlineMode = false;
+  // Repository für Benutzerdaten-Management
+  final UserRepository _userRepository = UserRepository();
+
+  // Getter für einfachen Zugriff auf Benutzerdaten
+  UserData get _currentUser => _userRepository.currentUser;
 
   /// Aktualisiert die Profildaten des Benutzers
   void updateProfile(String newName, String newEmail, String newAbout) {
     setState(() {
-      name = newName;
-      email = newEmail;
-      about = newAbout;
+      _userRepository.updateProfile(
+        name: newName,
+        email: newEmail,
+        about: newAbout,
+      );
     });
   }
 
   /// Aktualisiert den Slider-Wert
   void updateSliderValue(double newValue) {
     setState(() {
-      sliderValue = newValue;
+      _userRepository.updateSliderValue(newValue);
     });
   }
 
@@ -59,34 +49,30 @@ class _HomePageState extends State<HomePage> {
     required bool offlineMode,
   }) {
     setState(() {
-      this.newsletter = newsletter;
-      this.darkMode = darkMode;
-      this.notifications = notifications;
-      this.offlineMode = offlineMode;
+      _userRepository.updateSettings(
+        newsletter: newsletter,
+        darkMode: darkMode,
+        notifications: notifications,
+        offlineMode: offlineMode,
+      );
     });
   }
 
   /// Erstellt das Benutzer-Avatar Widget
   Widget _buildUserAvatar() {
-    return CircleAvatar(
-      radius: AppConstants.avatarRadius,
-      backgroundColor: Colors.blue.shade100,
-      child: Icon(
-        Icons.person, 
-        size: AppConstants.avatarRadius + 8, 
-        color: Colors.blue.shade700
-      ),
-    );
+    return AppWidgets.userAvatar();
   }
 
   /// Erstellt den Willkommens-Text
   Widget _buildWelcomeText() {
+    final userName = _currentUser.name;
+    final welcomeText = userName.isNotEmpty 
+        ? '${AppConstants.welcomePersonalized}, $userName!' 
+        : AppConstants.welcomeDefault;
+    
     return Text(
-      name.isNotEmpty ? 'Willkommen, $name!' : 'Willkommen im Portfolio',
-      style: const TextStyle(
-        fontSize: AppConstants.headerFontSize, 
-        fontWeight: FontWeight.bold
-      ),
+      welcomeText,
+      style: AppTheme.headlineSmall,
       textAlign: TextAlign.center,
     );
   }
@@ -95,26 +81,24 @@ class _HomePageState extends State<HomePage> {
   Widget _buildUserInfo() {
     return Column(
       children: [
-        if (email.isNotEmpty)
+        if (_currentUser.email.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.only(top: AppTheme.spacingSmall),
             child: Text(
-              email,
-              style: TextStyle(
-                fontSize: AppConstants.subHeaderFontSize, 
-                color: Colors.grey[700]
+              _currentUser.email,
+              style: AppTheme.titleMedium.copyWith(
+                color: AppTheme.textSecondary,
               ),
             ),
           ),
-        if (about.isNotEmpty)
+        if (_currentUser.about.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.only(top: AppTheme.spacingSmall),
             child: Text(
-              about,
-              style: TextStyle(
-                fontSize: AppConstants.smallFontSize, 
-                color: Colors.grey[600], 
-                fontStyle: FontStyle.italic
+              _currentUser.about,
+              style: AppTheme.bodyMedium.copyWith(
+                color: AppTheme.textSecondary,
+                fontStyle: FontStyle.italic,
               ),
               textAlign: TextAlign.center,
             ),
@@ -129,16 +113,10 @@ class _HomePageState extends State<HomePage> {
     required String label,
     required VoidCallback onPressed,
   }) {
-    return ElevatedButton.icon(
-      icon: Icon(icon),
+    return AppWidgets.iconButton(
+      icon: icon,
+      label: label,
       onPressed: onPressed,
-      label: Text(label),
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(
-          AppConstants.buttonWidth, 
-          AppConstants.buttonHeight
-        )
-      ),
     );
   }
 
@@ -147,11 +125,12 @@ class _HomePageState extends State<HomePage> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ProfileFormPage(
-          initialName: name,
-          initialEmail: email,
-          initialAbout: about,
-        ),
+        builder:
+            (_) => ProfileFormPage(
+              initialName: _currentUser.name,
+              initialEmail: _currentUser.email,
+              initialAbout: _currentUser.about,
+            ),
       ),
     );
     if (result is Map<String, String>) {
@@ -167,9 +146,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _navigateToSlider() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => SliderPage(initialValue: sliderValue),
-      ),
+      MaterialPageRoute(builder: (_) => SliderPage(initialValue: _currentUser.sliderValue)),
     );
     if (result is double) {
       updateSliderValue(result);
@@ -181,12 +158,13 @@ class _HomePageState extends State<HomePage> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => SettingsPage(
-          initialNewsletter: newsletter,
-          initialDarkMode: darkMode,
-          initialNotifications: notifications,
-          initialOfflineMode: offlineMode,
-        ),
+        builder:
+            (_) => SettingsPage(
+              initialNewsletter: _currentUser.newsletter,
+              initialDarkMode: _currentUser.darkMode,
+              initialNotifications: _currentUser.notifications,
+              initialOfflineMode: _currentUser.offlineMode,
+            ),
       ),
     );
     if (result is Map) {
@@ -201,49 +179,37 @@ class _HomePageState extends State<HomePage> {
 
   /// Navigiert zur Zusammenfassungsseite
   void _navigateToSummary() {
-    final userData = UserData(
-      name: name,
-      email: email,
-      about: about,
-      sliderValue: sliderValue,
-      newsletter: newsletter,
-      darkMode: darkMode,
-      notifications: notifications,
-      offlineMode: offlineMode,
-    );
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => SummaryPage(data: userData),
-      ),
+      MaterialPageRoute(builder: (_) => SummaryPage(data: _currentUser)),
     );
   }
 
   /// Erstellt alle Navigation-Buttons
   Widget _buildNavigationButtons() {
     return Wrap(
-      spacing: AppConstants.buttonSpacing,
-      runSpacing: AppConstants.buttonSpacing,
+      spacing: AppTheme.spacingMedium,
+      runSpacing: AppTheme.spacingMedium,
       alignment: WrapAlignment.center,
       children: [
         _buildNavigationButton(
           icon: Icons.edit,
-          label: 'Profilseite',
+          label: AppConstants.profilePageLabel,
           onPressed: _navigateToProfile,
         ),
         _buildNavigationButton(
           icon: Icons.tune,
-          label: 'Slider-Seite',
+          label: AppConstants.sliderPageLabel,
           onPressed: _navigateToSlider,
         ),
         _buildNavigationButton(
           icon: Icons.settings,
-          label: 'Einstellungen',
+          label: AppConstants.settingsPageLabel,
           onPressed: _navigateToSettings,
         ),
         _buildNavigationButton(
           icon: Icons.summarize,
-          label: 'Zusammenfassung',
+          label: AppConstants.summaryPageLabel,
           onPressed: _navigateToSummary,
         ),
       ],
@@ -253,20 +219,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Mein Portfolio')),
+      appBar: AppBar(title: const Text(AppConstants.appTitle)),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(AppConstants.mainPadding),
+            padding: EdgeInsets.all(AppTheme.spacingXLarge),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildUserAvatar(),
-                const SizedBox(height: 24),
+                AppWidgets.spacing(height: AppTheme.spacingLarge),
                 _buildWelcomeText(),
                 _buildUserInfo(),
-                const SizedBox(height: 36),
+                AppWidgets.spacing(height: AppTheme.spacingXXLarge),
                 _buildNavigationButtons(),
               ],
             ),

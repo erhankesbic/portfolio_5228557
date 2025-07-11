@@ -3,6 +3,8 @@ import 'profile_form_page.dart';
 import 'slider_page.dart';
 import 'settings_page.dart';
 import 'summary_page.dart';
+import 'work_page.dart';
+import 'about_page.dart';
 import '../models/user_data.dart';
 import '../repositories/user_repository.dart';
 import '../utils/icon_utils.dart';
@@ -194,6 +196,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Navigiert zur Work-Portfolio-Seite
+  void _navigateToWork() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const WorkPage()),
+    );
+  }
+
+  /// Navigiert zur About-Seite
+  void _navigateToAbout() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AboutPage()),
+    );
+  }
+
   /// Erstellt alle Navigation-Buttons
   Widget _buildNavigationButtons() {
     return Wrap(
@@ -207,9 +225,19 @@ class _HomePageState extends State<HomePage> {
           onPressed: _navigateToProfile,
         ),
         _buildNavigationButton(
+          icon: Icons.person,
+          label: 'Über mich',
+          onPressed: _navigateToAbout,
+        ),
+        _buildNavigationButton(
           icon: IconUtils.slider,
           label: 'Slider-Seite',
           onPressed: _navigateToSlider,
+        ),
+        _buildNavigationButton(
+          icon: Icons.work,
+          label: 'Meine Arbeiten',
+          onPressed: _navigateToWork,
         ),
         _buildNavigationButton(
           icon: IconUtils.settings,

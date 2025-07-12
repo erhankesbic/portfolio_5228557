@@ -106,10 +106,6 @@ class AppScaffold extends StatelessWidget {
       icon: const Icon(Icons.settings, color: Colors.white, size: 30),
       onPressed: () => NavigationService.navigateToSettings(
         context,
-        newsletter: viewModel.currentUser.newsletter,
-        darkMode: viewModel.currentUser.darkMode,
-        notifications: viewModel.currentUser.notifications,
-        offlineMode: viewModel.currentUser.offlineMode,
       ),
       tooltip: 'Einstellungen',
     );

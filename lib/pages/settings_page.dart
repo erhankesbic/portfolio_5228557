@@ -6,18 +6,7 @@ import '../widgets/app_scaffold.dart';
 import '../viewmodels/home_view_model.dart';
 
 class SettingsPage extends StatefulWidget {
-  final bool initialNewsletter;
-  final bool initialDarkMode;
-  final bool initialNotifications;
-  final bool initialOfflineMode;
-
-  const SettingsPage({
-    super.key,
-    required this.initialNewsletter,
-    required this.initialDarkMode,
-    required this.initialNotifications,
-    required this.initialOfflineMode,
-  });
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -28,14 +17,17 @@ class _SettingsPageState extends State<SettingsPage> {
   late bool isDarkMode;
   late bool isNotificationsEnabled;
   late bool isOfflineMode;
+  late double _sliderValue;
 
   @override
   void initState() {
     super.initState();
-    isNewsletterSubscribed = widget.initialNewsletter;
-    isDarkMode = widget.initialDarkMode;
-    isNotificationsEnabled = widget.initialNotifications;
-    isOfflineMode = widget.initialOfflineMode;
+    final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+    isNewsletterSubscribed = viewModel.currentUser.newsletter;
+    isDarkMode = viewModel.currentUser.darkMode;
+    isNotificationsEnabled = viewModel.currentUser.notifications;
+    isOfflineMode = viewModel.currentUser.offlineMode;
+    _sliderValue = viewModel.currentUser.sliderValue;
   }
 
   void _saveSettings() {
@@ -45,7 +37,12 @@ class _SettingsPageState extends State<SettingsPage> {
       notifications: isNotificationsEnabled,
       offlineMode: isOfflineMode,
     );
+    Provider.of<HomeViewModel>(context, listen: false).updateSliderValue(_sliderValue);
     Navigator.pop(context);
+  }
+
+  Color _calculateColor() {
+    return Color.lerp(Colors.blue, Colors.red, _sliderValue / 100)!;
   }
 
   @override
@@ -109,6 +106,62 @@ class _SettingsPageState extends State<SettingsPage> {
                             value: isOfflineMode,
                             onChanged:
                                 (val) => setState(() => isOfflineMode = val),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  AppWidgets.card(
+                    margin: const EdgeInsets.only(
+                      bottom: AppTheme.spacingXLarge,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(AppTheme.spacingLarge),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Slider-Wert',
+                            style: AppTheme.headlineSmall.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                          AppWidgets.spacing(height: AppTheme.spacingLarge),
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: _calculateColor(),
+                              borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: _calculateColor().withOpacity(0.5),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                          ),
+                          AppWidgets.spacing(height: AppTheme.spacingLarge),
+                          Text(
+                            'Wert: ${_sliderValue.toInt()}',
+                            style: AppTheme.headlineMedium.copyWith(
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                          Slider(
+                            min: 0,
+                            max: 100,
+                            divisions: 100,
+                            value: _sliderValue,
+                            activeColor: _calculateColor(),
+                            inactiveColor: _calculateColor().withOpacity(0.3),
+                            onChanged: (value) {
+                              setState(() {
+                                _sliderValue = value.roundToDouble();
+                              });
+                            },
                           ),
                         ],
                       ),

@@ -128,10 +128,6 @@ class SummaryPage extends StatelessWidget {
                             onPressed: () {
                               NavigationService.navigateToSettings(
                                 context,
-                                newsletter: data.newsletter,
-                                darkMode: data.darkMode,
-                                notifications: data.notifications,
-                                offlineMode: data.offlineMode,
                               );
                             },
                           ),
@@ -166,6 +162,13 @@ class SummaryPage extends StatelessWidget {
                           'Wert: ${data.sliderValue.toInt()}',
                           style: AppTheme.bodyLarge,
                         ),
+                        AppWidgets.spacing(height: AppTheme.spacingMedium),
+                        AppWidgets.textButton(
+                          label: 'Slider bearbeiten',
+                          onPressed: () {
+                            NavigationService.navigateToSlider(context);
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -176,9 +179,8 @@ class SummaryPage extends StatelessWidget {
         ),
       ),
     );
-
-
       },
     );
   }
-  }
+}
+        

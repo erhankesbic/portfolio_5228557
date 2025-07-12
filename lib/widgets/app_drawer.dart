@@ -80,13 +80,7 @@ class AppDrawer extends StatelessWidget {
             title: 'Einstellungen',
             onTap: () {
               Navigator.pop(context);
-              NavigationService.navigateToSettings(
-                context,
-                newsletter: currentUser.newsletter,
-                darkMode: currentUser.darkMode,
-                notifications: currentUser.notifications,
-                offlineMode: currentUser.offlineMode,
-              );
+              NavigationService.navigateToSettings(context);
             },
           ),
           _buildDrawerItem(
@@ -94,9 +88,7 @@ class AppDrawer extends StatelessWidget {
             title: 'Profil',
             onTap: () {
               Navigator.pop(context);
-              NavigationService.navigateToSummary(
-                context,
-              );
+              NavigationService.navigateToSummary(context);
             },
           ),
         ],

@@ -3,10 +3,8 @@ import '../pages/about_page.dart';
 import '../pages/contact_page.dart';
 import '../pages/profile_form_page.dart';
 import '../pages/settings_page.dart';
-import '../pages/slider_page.dart';
 import '../pages/summary_page.dart';
 import '../pages/work_page.dart';
-import '../models/user_data.dart';
 
 /// Service für die Navigation zwischen Seiten
 ///
@@ -40,57 +38,31 @@ class NavigationService {
     return result;
   }
 
-  /// Navigiert zur Slider-Seite
+  /// Navigiert zur Slider-Seite (jetzt in SettingsPage integriert)
   ///
   /// [context] - Build Context für Navigation
-  /// [currentValue] - Aktueller Slider-Wert
-  ///
-  /// Returns: Neuer Slider-Wert oder null
-  static Future<double?> navigateToSlider(
-    BuildContext context, {
-    required double currentValue,
-  }) async {
-    final result = await Navigator.push<double>(
+  static Future<void> navigateToSlider(BuildContext context) async {
+    await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => SliderPage(initialValue: currentValue)),
+      MaterialPageRoute(builder: (_) => const SettingsPage()),
     );
-
-    return result;
   }
 
   /// Navigiert zu den Einstellungen
   ///
   /// [context] - Build Context für Navigation
-  /// [currentSettings] - Aktuelle Einstellungen
-  ///
-  /// Returns: Map mit neuen Einstellungen oder null
-  static Future<Map<String, dynamic>?> navigateToSettings(
-    BuildContext context, {
-    required bool newsletter,
-    required bool darkMode,
-    required bool notifications,
-    required bool offlineMode,
-  }) async {
-    final result = await Navigator.push<Map<String, dynamic>>(
+  static Future<void> navigateToSettings(
+    BuildContext context,
+  ) async {
+    await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder:
-            (_) => SettingsPage(
-              initialNewsletter: newsletter,
-              initialDarkMode: darkMode,
-              initialNotifications: notifications,
-              initialOfflineMode: offlineMode,
-            ),
-      ),
+      MaterialPageRoute(builder: (_) => const SettingsPage()),
     );
-
-    return result;
   }
 
   /// Navigiert zur Zusammenfassungsseite
   ///
   /// [context] - Build Context für Navigation
-  /// [userData] - Alle Benutzerdaten
   static Future<void> navigateToSummary(
     BuildContext context,
   ) async {
@@ -130,3 +102,4 @@ class NavigationService {
     );
   }
 }
+

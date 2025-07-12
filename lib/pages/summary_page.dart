@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/user_data.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../widgets/app_scaffold.dart';
@@ -12,6 +11,7 @@ class SummaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) {
         final data = viewModel.currentUser;
@@ -35,7 +35,7 @@ class SummaryPage extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.person,
-                                  color: AppTheme.primaryColor,
+                                  color: primaryColor,
                                   size: 28,
                                 ),
                                 AppWidgets.spacing(width: AppTheme.spacingSmall),
@@ -93,7 +93,7 @@ class SummaryPage extends StatelessWidget {
                               children: [
                                 Icon(
                                   Icons.settings,
-                                  color: AppTheme.primaryColor,
+                                  color: primaryColor,
                                   size: 28,
                                 ),
                                 AppWidgets.spacing(width: AppTheme.spacingSmall),
@@ -145,7 +145,7 @@ class SummaryPage extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.tune,
-                              color: AppTheme.primaryColor,
+                              color: primaryColor,
                               size: 28,
                             ),
                             AppWidgets.spacing(width: AppTheme.spacingSmall),

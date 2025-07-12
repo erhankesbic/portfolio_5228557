@@ -23,9 +23,9 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _buildUserAvatar(),
+                _buildUserAvatar(context),
                 AppWidgets.spacing(height: AppTheme.spacingLarge),
-                _buildWelcomeText(viewModel.currentUser),
+                _buildWelcomeText(context, viewModel.currentUser),
                 _buildUserInfo(viewModel.currentUser),
                 AppWidgets.spacing(height: AppTheme.spacingXLarge),
               ],
@@ -36,18 +36,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserAvatar() {
+  Widget _buildUserAvatar(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Container(
       width: 100,
       height: 100,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
-          colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
+          colors: [primaryColor, Theme.of(context).colorScheme.secondary],
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primaryColor.withAlpha(50),
+            color: primaryColor.withAlpha(50),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -57,7 +58,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildWelcomeText(UserData currentUser) {
+  Widget _buildWelcomeText(BuildContext context, UserData currentUser) {
+    final primaryColor = Theme.of(context).primaryColor;
     final userName = currentUser.name;
     final welcomeText =
         userName.isNotEmpty ? 'Willkommen, $userName!' : 'Willkommen im Portfolio';
@@ -66,7 +68,7 @@ class HomePage extends StatelessWidget {
       welcomeText,
       style: AppTheme.headlineMedium.copyWith(
         fontWeight: FontWeight.bold,
-        color: AppTheme.primaryColor,
+        color: primaryColor,
       ),
       textAlign: TextAlign.center,
     );

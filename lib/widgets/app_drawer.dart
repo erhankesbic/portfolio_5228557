@@ -11,6 +11,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomeViewModel>(context);
     final currentUser = viewModel.currentUser;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Drawer(
       child: ListView(
@@ -18,7 +19,7 @@ class AppDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor,
+              color: primaryColor,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,6 +45,7 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.home,
             title: 'Startseite',
             onTap: () {
@@ -52,6 +54,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.work,
             title: 'Meine Arbeiten',
             onTap: () {
@@ -60,6 +63,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.info_outline,
             title: 'Über mich',
             onTap: () {
@@ -68,6 +72,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.contact_mail,
             title: 'Kontakt',
             onTap: () {
@@ -76,6 +81,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.settings,
             title: 'Einstellungen',
             onTap: () {
@@ -84,6 +90,7 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           _buildDrawerItem(
+            context: context,
             icon: Icons.account_circle,
             title: 'Profil',
             onTap: () {
@@ -96,9 +103,10 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawerItem({IconData? icon, required String title, VoidCallback? onTap}) {
+  Widget _buildDrawerItem({required BuildContext context, IconData? icon, required String title, VoidCallback? onTap}) {
+    final primaryColor = Theme.of(context).primaryColor;
     return ListTile(
-      leading: icon != null ? Icon(icon, color: AppTheme.primaryColor) : null,
+      leading: icon != null ? Icon(icon, color: primaryColor) : null,
       title: Text(title, style: AppTheme.bodyLarge),
       onTap: onTap,
     );

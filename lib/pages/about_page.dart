@@ -34,10 +34,10 @@ class _AboutPageState extends State<AboutPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildHeroSection(_aboutData.personalInfo),
+            _buildHeroSection(context, _aboutData.personalInfo),
             _buildBiographySection(_aboutData.personalInfo),
-            _buildSkillsSection(_aboutData.skills),
-            _buildInterestsSection(_aboutData.interests),
+            _buildSkillsSection(context, _aboutData.skills),
+            _buildInterestsSection(context, _aboutData.interests),
             AppWidgets.spacing(height: AppTheme.spacingXLarge),
           ],
         ),
@@ -46,14 +46,15 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   /// Erstellt die Hero-Sektion mit Profilbild und grundlegenden Infos
-  Widget _buildHeroSection(PersonalInfo personalInfo) {
+  Widget _buildHeroSection(BuildContext context, PersonalInfo personalInfo) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [AppTheme.primaryColor.withAlpha(25), Colors.white],
+          colors: [primaryColor.withAlpha(25), Colors.white],
         ),
       ),
       child: Padding(
@@ -67,11 +68,11 @@ class _AboutPageState extends State<AboutPage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
-                  colors: [AppTheme.primaryColor, AppTheme.secondaryColor],
+                  colors: [primaryColor, Theme.of(context).colorScheme.secondary],
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.primaryColor.withAlpha(75),
+                    color: primaryColor.withAlpha(75),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -86,7 +87,7 @@ class _AboutPageState extends State<AboutPage> {
               personalInfo.name,
               style: AppTheme.headlineLarge.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.primaryColor,
+                color: primaryColor,
               ),
               textAlign: TextAlign.center,
             ),
@@ -116,7 +117,7 @@ class _AboutPageState extends State<AboutPage> {
                               fontSize: 12,
                             ),
                           ),
-                          backgroundColor: AppTheme.primaryColor,
+                          backgroundColor: primaryColor,
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                         ),
@@ -159,6 +160,7 @@ class _AboutPageState extends State<AboutPage> {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
+        context: context,
         title: 'Meine Geschichte',
         icon: Icons.menu_book,
         child: Text(
@@ -174,16 +176,17 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   /// Erstellt die Skills-Sektion
-  Widget _buildSkillsSection(List<SkillCategory> skills) {
+  Widget _buildSkillsSection(BuildContext context, List<SkillCategory> skills) {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
+        context: context,
         title: 'Technische Fähigkeiten',
         icon: Icons.build,
         child: Column(
           children:
               skills
-                  .map((skillCategory) => _buildSkillCategory(skillCategory))
+                  .map((skillCategory) => _buildSkillCategory(context, skillCategory))
                   .toList(),
         ),
       ),
@@ -191,7 +194,8 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   /// Erstellt eine einzelne Skill-Kategorie
-  Widget _buildSkillCategory(SkillCategory skillCategory) {
+  Widget _buildSkillCategory(BuildContext context, SkillCategory skillCategory) {
+    final primaryColor = Theme.of(context).primaryColor;
     final skillLevelText = _aboutRepository.getSkillLevelText(
       skillCategory.level,
     );
@@ -224,7 +228,7 @@ class _AboutPageState extends State<AboutPage> {
                 skillCategory.title,
                 style: AppTheme.titleMedium.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.primaryColor,
+                  color: primaryColor,
                 ),
               ),
               Container(
@@ -273,7 +277,7 @@ class _AboutPageState extends State<AboutPage> {
                           color: AppTheme.surfaceColor,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
-                            color: AppTheme.primaryColor.withAlpha(50),
+                            color: primaryColor.withAlpha(50),
                           ),
                         ),
                         child: Text(
@@ -293,10 +297,11 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   /// Erstellt die Interessen-Sektion
-  Widget _buildInterestsSection(List<Interest> interests) {
+  Widget _buildInterestsSection(BuildContext context, List<Interest> interests) {
     return Container(
       margin: const EdgeInsets.all(AppTheme.spacingLarge),
       child: _buildSection(
+        context: context,
         title: 'Interessen & Hobbys',
         icon: Icons.star,
         child: GridView.builder(
@@ -309,14 +314,15 @@ class _AboutPageState extends State<AboutPage> {
             mainAxisSpacing: AppTheme.spacingMedium,
           ),
           itemCount: interests.length,
-          itemBuilder: (context, index) => _buildInterestCard(interests[index]),
+          itemBuilder: (context, index) => _buildInterestCard(context, interests[index]),
         ),
       ),
     );
   }
 
   /// Erstellt eine einzelne Interesse-Karte
-  Widget _buildInterestCard(Interest interest) {
+  Widget _buildInterestCard(BuildContext context, Interest interest) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Container(
       padding: const EdgeInsets.all(AppTheme.spacingSmall), // Weniger Padding
       decoration: BoxDecoration(
@@ -333,13 +339,13 @@ class _AboutPageState extends State<AboutPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(interest.icon, color: AppTheme.primaryColor, size: 28), // Kleineres Icon
+          Icon(interest.icon, color: primaryColor, size: 28), // Kleineres Icon
           AppWidgets.spacing(height: AppTheme.spacingXSmall),
           Text(
             interest.title,
             style: AppTheme.bodyMedium.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppTheme.primaryColor,
+              color: primaryColor,
             ),
             textAlign: TextAlign.center,
           ),
@@ -356,24 +362,26 @@ class _AboutPageState extends State<AboutPage> {
 
   /// Hilfsmethode für Sections
   Widget _buildSection({
+    required BuildContext context, 
     required String title,
     required Widget child,
     IconData? icon,
   }) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             if (icon != null) ...[
-              Icon(icon, color: AppTheme.primaryColor, size: 24),
+              Icon(icon, color: primaryColor, size: 24),
               const SizedBox(width: 8),
             ],
             Text(
               title,
               style: AppTheme.headlineSmall.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppTheme.primaryColor,
+                color: primaryColor,
               ),
             ),
           ],

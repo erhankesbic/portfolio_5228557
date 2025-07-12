@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../widgets/app_scaffold.dart';
 import '../viewmodels/home_view_model.dart';
+import '../viewmodels/theme_view_model.dart'; // Import new ViewModel
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -17,36 +19,42 @@ class _SettingsPageState extends State<SettingsPage> {
   late bool isDarkMode;
   late bool isNotificationsEnabled;
   late bool isOfflineMode;
-  late double _sliderValue;
+  
+  // Slider value will now represent the Hue
+  late double _hueValue;
 
   @override
   void initState() {
     super.initState();
-    final viewModel = Provider.of<HomeViewModel>(context, listen: false);
-    isNewsletterSubscribed = viewModel.currentUser.newsletter;
-    isDarkMode = viewModel.currentUser.darkMode;
-    isNotificationsEnabled = viewModel.currentUser.notifications;
-    isOfflineMode = viewModel.currentUser.offlineMode;
-    _sliderValue = viewModel.currentUser.sliderValue;
+    final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
+    final themeViewModel = Provider.of<ThemeViewModel>(context, listen: false);
+    
+    isNewsletterSubscribed = homeViewModel.currentUser.newsletter;
+    isDarkMode = homeViewModel.currentUser.darkMode; // This could be linked to ThemeMode
+    isNotificationsEnabled = homeViewModel.currentUser.notifications;
+    isOfflineMode = homeViewModel.currentUser.offlineMode;
+
+    // Initialize slider value from the current theme color
+    _hueValue = HSLColor.fromColor(themeViewModel.primaryColor).hue;
   }
 
   void _saveSettings() {
+    // Only save non-theme related settings
     Provider.of<HomeViewModel>(context, listen: false).updateSettings(
       newsletter: isNewsletterSubscribed,
       darkMode: isDarkMode,
       notifications: isNotificationsEnabled,
       offlineMode: isOfflineMode,
     );
-    Provider.of<HomeViewModel>(context, listen: false).updateSliderValue(_sliderValue);
     Navigator.pop(context);
-  }
-
-  Color _calculateColor() {
-    return Color.lerp(Colors.blue, Colors.red, _sliderValue / 100)!;
   }
 
   @override
   Widget build(BuildContext context) {
+    // Use Consumer to get the ThemeViewModel and rebuild on changes
+    final themeViewModel = Provider.of<ThemeViewModel>(context);
+    final currentThemeColor = themeViewModel.primaryColor;
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -73,39 +81,35 @@ class _SettingsPageState extends State<SettingsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildSwitchTile(
+                            context: context,
                             icon: Icons.email,
                             title: 'Newsletter abonnieren',
                             value: isNewsletterSubscribed,
-                            onChanged:
-                                (val) => setState(
-                                  () => isNewsletterSubscribed = val,
-                                ),
+                            onChanged: (val) => setState(() => isNewsletterSubscribed = val),
                           ),
                           AppWidgets.spacing(height: AppTheme.spacingMedium),
                           _buildSwitchTile(
+                            context: context,
                             icon: Icons.dark_mode,
                             title: 'Dark Mode',
                             value: isDarkMode,
-                            onChanged:
-                                (val) => setState(() => isDarkMode = val),
+                            onChanged: (val) => setState(() => isDarkMode = val),
                           ),
                           AppWidgets.spacing(height: AppTheme.spacingMedium),
                           _buildSwitchTile(
+                            context: context,
                             icon: Icons.notifications,
                             title: 'Benachrichtigungen',
                             value: isNotificationsEnabled,
-                            onChanged:
-                                (val) => setState(
-                                  () => isNotificationsEnabled = val,
-                                ),
+                            onChanged: (val) => setState(() => isNotificationsEnabled = val),
                           ),
                           AppWidgets.spacing(height: AppTheme.spacingMedium),
                           _buildSwitchTile(
+                            context: context,
                             icon: Icons.offline_bolt,
                             title: 'Offline-Modus',
                             value: isOfflineMode,
-                            onChanged:
-                                (val) => setState(() => isOfflineMode = val),
+                            onChanged: (val) => setState(() => isOfflineMode = val),
                           ),
                         ],
                       ),
@@ -121,22 +125,23 @@ class _SettingsPageState extends State<SettingsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Slider-Wert',
+                            'App-Farbe anpassen',
                             style: AppTheme.headlineSmall.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.primaryColor,
+                              color: currentThemeColor, // Dynamic color
                             ),
                           ),
                           AppWidgets.spacing(height: AppTheme.spacingLarge),
+                          // Color Preview
                           Container(
                             width: 100,
                             height: 100,
                             decoration: BoxDecoration(
-                              color: _calculateColor(),
+                              color: currentThemeColor, // Dynamic color
                               borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                               boxShadow: [
                                 BoxShadow(
-                                  color: _calculateColor().withOpacity(0.5),
+                                  color: currentThemeColor.withAlpha(128),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),
@@ -144,22 +149,20 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ),
                           AppWidgets.spacing(height: AppTheme.spacingLarge),
-                          Text(
-                            'Wert: ${_sliderValue.toInt()}',
-                            style: AppTheme.headlineMedium.copyWith(
-                              color: AppTheme.primaryColor,
-                            ),
-                          ),
+                          // Hue Slider
                           Slider(
                             min: 0,
-                            max: 100,
-                            divisions: 100,
-                            value: _sliderValue,
-                            activeColor: _calculateColor(),
-                            inactiveColor: _calculateColor().withOpacity(0.3),
+                            max: 360,
+                            value: _hueValue,
+                            activeColor: currentThemeColor, // Dynamic color
+                            inactiveColor: currentThemeColor.withAlpha(77), // Dynamic color
                             onChanged: (value) {
                               setState(() {
-                                _sliderValue = value.roundToDouble();
+                                _hueValue = value;
+                                // Create new color from HSL
+                                final newColor = HSLColor.fromAHSL(1.0, _hueValue, 0.5, 0.5).toColor();
+                                // Update the theme
+                                themeViewModel.setPrimaryColor(newColor);
                               });
                             },
                           ),
@@ -182,21 +185,26 @@ class _SettingsPageState extends State<SettingsPage> {
 
   /// Hilfsmethode für Switches
   Widget _buildSwitchTile({
+    required BuildContext context, // Pass context
     required IconData icon,
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
+    // Get color from theme
+    final primaryColor = Theme.of(context).primaryColor;
+    
     return SwitchListTile(
-      secondary: Icon(icon, color: AppTheme.primaryColor),
+      secondary: Icon(icon, color: primaryColor),
       title: Text(
         title,
         style: AppTheme.bodyLarge.copyWith(color: AppTheme.textPrimary),
       ),
       value: value,
       onChanged: onChanged,
-      activeColor: AppTheme.primaryColor,
+      activeColor: primaryColor,
       contentPadding: EdgeInsets.zero,
     );
   }
 }
+

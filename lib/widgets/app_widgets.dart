@@ -249,7 +249,7 @@ class AppWidgets {
         children: [
           Icon(
             icon ?? Icons.inbox_outlined,
-            size: AppTheme.iconLarge * 2,
+            size: AppTheme.iconLarge,
             color: AppTheme.textHint,
           ),
           spacing(height: AppTheme.spacingMedium),

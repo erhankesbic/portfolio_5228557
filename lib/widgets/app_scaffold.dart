@@ -16,11 +16,12 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 600;
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppTheme.primaryColor,
+        backgroundColor: primaryColor,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: isSmallScreen,
         title: isSmallScreen

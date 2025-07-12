@@ -100,6 +100,7 @@ class _WorkPageState extends State<WorkPage> {
   /// Erstellt die Filter-Chips
   Widget _buildFilterChips() {
     final categories = ['Alle', ..._workRepository.getCategories()];
+    final primaryColor = Theme.of(context).primaryColor;
 
     return Container(
       height: 50,
@@ -123,7 +124,7 @@ class _WorkPageState extends State<WorkPage> {
                 _filterItems();
               },
               backgroundColor: AppTheme.surfaceColor,
-              selectedColor: AppTheme.primaryLight,
+              selectedColor: primaryColor.withAlpha(51),
             ),
           );
         },
@@ -218,6 +219,7 @@ class _WorkPageState extends State<WorkPage> {
 
   /// Erstellt die Technologie-Tags
   Widget _buildTechnologyTags(List<String> technologies) {
+    final primaryColor = Theme.of(context).primaryColor;
     return Wrap(
       spacing: AppTheme.spacingSmall,
       runSpacing: AppTheme.spacingSmall,
@@ -229,13 +231,13 @@ class _WorkPageState extends State<WorkPage> {
                 vertical: 4,
               ),
               decoration: BoxDecoration(
-                color: AppTheme.primaryLight,
+                color: primaryColor.withAlpha(51),
                 borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
               ),
               child: Text(
                 tech,
                 style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.primaryDark,
+                  color: primaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -398,7 +400,7 @@ class _WorkPageState extends State<WorkPage> {
       case WorkStatus.inProgress:
         return AppTheme.warningColor;
       case WorkStatus.planned:
-        return AppTheme.primaryColor;
+        return Theme.of(context).primaryColor;
       case WorkStatus.archived:
         return AppTheme.textSecondary;
     }
@@ -463,3 +465,4 @@ class _WorkPageState extends State<WorkPage> {
     );
   }
 }
+

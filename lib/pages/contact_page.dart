@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_widgets.dart';
 import '../widgets/app_scaffold.dart';
+import '../viewmodels/home_view_model.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -12,10 +14,18 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
   final _subjectController = TextEditingController();
   final _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final viewModel = Provider.of<HomeViewModel>(context, listen: false);
+    _nameController = TextEditingController(text: viewModel.currentUser.name);
+    _emailController = TextEditingController(text: viewModel.currentUser.email);
+  }
 
   @override
   void dispose() {

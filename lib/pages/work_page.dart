@@ -292,9 +292,9 @@ class _WorkPageState extends State<WorkPage> {
             minChildSize: 0.5,
             builder: (context, scrollController) {
               return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(AppTheme.radiusXLarge),
                   ),
                 ),
@@ -308,7 +308,7 @@ class _WorkPageState extends State<WorkPage> {
                         width: 40,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: Theme.of(context).dividerColor,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -317,15 +317,15 @@ class _WorkPageState extends State<WorkPage> {
                     AppWidgets.spacing(height: AppTheme.spacingLarge),
 
                     // Titel
-                    Text(item.title, style: AppTheme.headlineMedium),
+                    Text(item.title, style: Theme.of(context).textTheme.headlineMedium),
 
                     AppWidgets.spacing(height: AppTheme.spacingSmall),
 
                     // Kategorie und Datum
                     Text(
                       '${item.category} • ${item.formattedDate}',
-                      style: AppTheme.bodyLarge.copyWith(
-                        color: AppTheme.textSecondary,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
                       ),
                     ),
 
@@ -333,17 +333,17 @@ class _WorkPageState extends State<WorkPage> {
 
                     // Detaillierte Beschreibung
                     if (item.detailedDescription != null) ...[
-                      Text('Projektbeschreibung', style: AppTheme.titleLarge),
+                      Text('Projektbeschreibung', style: Theme.of(context).textTheme.titleLarge),
                       AppWidgets.spacing(height: AppTheme.spacingMedium),
                       Text(
                         item.detailedDescription!,
-                        style: AppTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       AppWidgets.spacing(height: AppTheme.spacingLarge),
                     ],
 
                     // Technologien
-                    Text('Verwendete Technologien', style: AppTheme.titleLarge),
+                    Text('Verwendete Technologien', style: Theme.of(context).textTheme.titleLarge),
                     AppWidgets.spacing(height: AppTheme.spacingMedium),
                     _buildTechnologyTags(item.technologies),
 

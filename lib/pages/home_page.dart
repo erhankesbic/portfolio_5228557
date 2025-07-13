@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                 _buildUserAvatar(context),
                 AppWidgets.spacing(height: AppTheme.spacingLarge),
                 _buildWelcomeText(context, viewModel.currentUser),
-                _buildUserInfo(viewModel.currentUser),
+                _buildUserInfo(context, viewModel.currentUser),
                 AppWidgets.spacing(height: AppTheme.spacingXLarge),
               ],
             ),
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildUserInfo(UserData currentUser) {
+  Widget _buildUserInfo(BuildContext context, UserData currentUser) {
     return Column(
       children: [
         if (currentUser.email.isNotEmpty)
@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
             child: Text(
               currentUser.email,
               style: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
               ),
             ),
           ),
@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
             child: Text(
               currentUser.about,
               style: AppTheme.bodySmall.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
                 fontStyle: FontStyle.italic,
               ),
               textAlign: TextAlign.center,

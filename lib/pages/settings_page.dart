@@ -198,7 +198,7 @@ class _SettingsPageState extends State<SettingsPage> {
       secondary: Icon(icon, color: primaryColor),
       title: Text(
         title,
-        style: AppTheme.bodyLarge.copyWith(color: AppTheme.textPrimary),
+        style: AppTheme.bodyLarge.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
       ),
       value: value,
       onChanged: onChanged,

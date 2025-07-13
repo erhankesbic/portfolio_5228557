@@ -207,7 +207,7 @@ class _WorkPageState extends State<WorkPage> {
               Text(
                 '${item.category} • ${item.formattedDate}',
                 style: AppTheme.bodySmall.copyWith(
-                  color: AppTheme.textSecondary,
+                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
                 ),
               ),
             ],
@@ -438,7 +438,7 @@ class _WorkPageState extends State<WorkPage> {
           Expanded(
             child:
                 _filteredItems.isEmpty
-                    ? AppWidgets.emptyState(
+                    ? AppWidgets.emptyState(context: context,
                       icon: Icons.work_off,
                       message: 'Keine Projekte gefunden',
                       action: AppWidgets.textButton(

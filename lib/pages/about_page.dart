@@ -95,7 +95,7 @@ class _AboutPageState extends State<AboutPage> {
             Text(
               personalInfo.title,
               style: AppTheme.titleLarge.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).textTheme.titleLarge?.color?.withOpacity(0.7),
               ),
               textAlign: TextAlign.center,
             ),
@@ -133,7 +133,7 @@ class _AboutPageState extends State<AboutPage> {
                 personalInfo.shortBio,
                 style: AppTheme.bodyLarge.copyWith(
                   fontStyle: FontStyle.italic,
-                  color: AppTheme.textSecondary,
+                  color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -156,7 +156,7 @@ class _AboutPageState extends State<AboutPage> {
           personalInfo.detailedBio,
           style: AppTheme.bodyMedium.copyWith(
             height: 1.6,
-            color: AppTheme.textPrimary,
+            color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
           textAlign: TextAlign.justify,
         ),
@@ -235,7 +235,7 @@ class _AboutPageState extends State<AboutPage> {
             Text(
               skillCategory.description!,
               style: AppTheme.bodySmall.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -317,7 +317,7 @@ class _AboutPageState extends State<AboutPage> {
           AppWidgets.spacing(height: 2),
           Text(
             interest.subtitle,
-            style: AppTheme.bodySmall.copyWith(color: AppTheme.textSecondary),
+            style: AppTheme.bodySmall.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7)),
             textAlign: TextAlign.center,
           ),
         ],

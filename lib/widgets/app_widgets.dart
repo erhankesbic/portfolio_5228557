@@ -164,6 +164,7 @@ class AppWidgets {
   /// [subtitle] - Optionaler Untertitel
   /// [style] - Optionales Text-Style
   static Widget sectionHeader({
+    required BuildContext context,
     required String title,
     String? subtitle,
     TextStyle? style,
@@ -176,7 +177,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingXSmall),
           Text(
             subtitle,
-            style: AppTheme.bodyMedium.copyWith(color: AppTheme.textSecondary),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
           ),
         ],
       ],
@@ -186,7 +187,7 @@ class AppWidgets {
   /// Loading Indikator
   ///
   /// [message] - Optionale Lade-Nachricht
-  static Widget loading({String? message}) {
+  static Widget loading({required BuildContext context, String? message}) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -197,7 +198,7 @@ class AppWidgets {
             Text(
               message,
               style: AppTheme.bodyMedium.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
               ),
             ),
           ],
@@ -210,7 +211,7 @@ class AppWidgets {
   ///
   /// [message] - Fehler-Nachricht
   /// [onRetry] - Retry-Callback
-  static Widget error({required String message, VoidCallback? onRetry}) {
+  static Widget error({required BuildContext context, required String message, VoidCallback? onRetry}) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -223,7 +224,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyMedium.copyWith(color: AppTheme.textSecondary),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
             textAlign: TextAlign.center,
           ),
           if (onRetry != null) ...[
@@ -241,6 +242,7 @@ class AppWidgets {
   /// [icon] - Icon für leeren Zustand
   /// [action] - Optionale Aktion
   static Widget emptyState({
+    required BuildContext context,
     required String message,
     IconData? icon,
     Widget? action,
@@ -257,7 +259,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyLarge.copyWith(color: AppTheme.textSecondary),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
             textAlign: TextAlign.center,
           ),
           if (action != null) ...[

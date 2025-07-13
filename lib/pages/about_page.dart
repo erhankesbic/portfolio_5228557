@@ -95,7 +95,7 @@ class _AboutPageState extends State<AboutPage> {
             Text(
               personalInfo.title,
               style: AppTheme.titleLarge.copyWith(
-                color: Theme.of(context).textTheme.titleLarge?.color?.withOpacity(0.7),
+                color: Theme.of(context).textTheme.titleLarge?.color?.withAlpha((255 * 0.7).round()),
               ),
               textAlign: TextAlign.center,
             ),
@@ -133,7 +133,7 @@ class _AboutPageState extends State<AboutPage> {
                 personalInfo.shortBio,
                 style: AppTheme.bodyLarge.copyWith(
                   fontStyle: FontStyle.italic,
-                  color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+                  color: Theme.of(context).textTheme.bodyLarge?.color?.withAlpha((255 * 0.7).round()),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -235,7 +235,7 @@ class _AboutPageState extends State<AboutPage> {
             Text(
               skillCategory.description!,
               style: AppTheme.bodySmall.copyWith(
-                color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha((255 * 0.7).round()),
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -317,7 +317,7 @@ class _AboutPageState extends State<AboutPage> {
           AppWidgets.spacing(height: 2),
           Text(
             interest.subtitle,
-            style: AppTheme.bodySmall.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7)),
+            style: AppTheme.bodySmall.copyWith(color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha((255 * 0.7).round())),
             textAlign: TextAlign.center,
           ),
         ],

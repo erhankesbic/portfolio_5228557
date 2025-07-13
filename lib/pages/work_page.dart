@@ -207,7 +207,7 @@ class _WorkPageState extends State<WorkPage> {
               Text(
                 '${item.category} • ${item.formattedDate}',
                 style: AppTheme.bodySmall.copyWith(
-                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                  color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha((255 * 0.7).round()),
                 ),
               ),
             ],
@@ -325,7 +325,7 @@ class _WorkPageState extends State<WorkPage> {
                     Text(
                       '${item.category} • ${item.formattedDate}',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7),
+                        color: Theme.of(context).textTheme.bodyLarge?.color?.withAlpha((255 * 0.7).round()),
                       ),
                     ),
 

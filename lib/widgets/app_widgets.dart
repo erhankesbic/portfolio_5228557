@@ -177,7 +177,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingXSmall),
           Text(
             subtitle,
-            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha((255 * 0.7).round())),
           ),
         ],
       ],
@@ -198,7 +198,7 @@ class AppWidgets {
             Text(
               message,
               style: AppTheme.bodyMedium.copyWith(
-                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha((255 * 0.7).round()),
               ),
             ),
           ],
@@ -224,7 +224,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha((255 * 0.7).round())),
             textAlign: TextAlign.center,
           ),
           if (onRetry != null) ...[
@@ -259,7 +259,7 @@ class AppWidgets {
           spacing(height: AppTheme.spacingMedium),
           Text(
             message,
-            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
+            style: AppTheme.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha((255 * 0.7).round())),
             textAlign: TextAlign.center,
           ),
           if (action != null) ...[

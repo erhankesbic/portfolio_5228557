@@ -62,7 +62,7 @@ class SummaryPage extends StatelessWidget {
                                   'Über mich: ${data.about}',
                                   style: AppTheme.bodySmall.copyWith(
                                     fontStyle: FontStyle.italic,
-                                    color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                                    color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha((255 * 0.7).round()),
                                   ),
                                 ),
                               ),

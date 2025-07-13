@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
             child: Text(
               currentUser.email,
               style: AppTheme.bodyMedium.copyWith(
-                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha((255 * 0.7).round()),
               ),
             ),
           ),
@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
             child: Text(
               currentUser.about,
               style: AppTheme.bodySmall.copyWith(
-                color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                color: Theme.of(context).textTheme.bodySmall?.color?.withAlpha((255 * 0.7).round()),
                 fontStyle: FontStyle.italic,
               ),
               textAlign: TextAlign.center,

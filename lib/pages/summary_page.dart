@@ -24,7 +24,7 @@ class SummaryPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AppWidgets.card(
+                    AppWidgets.card(context: context,
                       margin: const EdgeInsets.only(bottom: AppTheme.spacingXLarge),
                       child: Padding(
                         padding: const EdgeInsets.all(AppTheme.spacingLarge),
@@ -82,7 +82,7 @@ class SummaryPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    AppWidgets.card(
+                    AppWidgets.card(context: context,
                       margin: const EdgeInsets.only(bottom: AppTheme.spacingXLarge),
                       child: Padding(
                         padding: const EdgeInsets.all(AppTheme.spacingLarge),
@@ -135,7 +135,7 @@ class SummaryPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                AppWidgets.card(
+                AppWidgets.card(context: context,
                   child: Padding(
                     padding: const EdgeInsets.all(AppTheme.spacingLarge),
                     child: Column(

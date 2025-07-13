@@ -12,7 +12,7 @@ class AppTheme {
   static const Color textHint = Color(0xFFBDBDBD);
   static const Color backgroundLight = Color(0xFFFAFAFA);
   static const Color backgroundDark = Color(0xFF303030);
-  static const Color surfaceColor = Colors.white;
+  
   static const Color primaryLight = Color(0xFFE3F2FD);
   static const Color primaryDark = Color(0xFF1976D2);
 
@@ -44,15 +44,15 @@ class AppTheme {
   static const double iconLarge = 32.0;
 
   // Text Styles
-  static const TextStyle headlineLarge = TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold, color: textPrimary);
-  static const TextStyle headlineMedium = TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: textPrimary);
-  static const TextStyle headlineSmall = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600, color: textPrimary);
-  static const TextStyle titleLarge = TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600, color: textPrimary);
-  static const TextStyle titleMedium = TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, color: textPrimary);
-  static const TextStyle bodyLarge = TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal, color: textPrimary);
-  static const TextStyle bodyMedium = TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal, color: textPrimary);
-  static const TextStyle bodySmall = TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal, color: textSecondary);
-  static const TextStyle labelLarge = TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: textPrimary);
+  static const TextStyle headlineLarge = TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold);
+  static const TextStyle headlineMedium = TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold);
+  static const TextStyle headlineSmall = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
+  static const TextStyle titleLarge = TextStyle(fontSize: 18.0, fontWeight: FontWeight.w600);
+  static const TextStyle titleMedium = TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500);
+  static const TextStyle bodyLarge = TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal);
+  static const TextStyle bodyMedium = TextStyle(fontSize: 14.0, fontWeight: FontWeight.normal);
+  static const TextStyle bodySmall = TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal);
+  static const TextStyle labelLarge = TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500);
 
   /// Creates a dynamic light theme based on a primary color.
   static ThemeData getLightTheme(Color primaryColor) {
@@ -67,6 +67,10 @@ class AppTheme {
         backgroundColor: primaryColor,
         foregroundColor: Colors.white,
       ),
+      cardColor: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.light).surface,
+      dialogTheme: DialogThemeData(
+        backgroundColor: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.light).surface,
+      ),
       // ... other theme properties
     );
   }
@@ -77,10 +81,31 @@ class AppTheme {
       useMaterial3: false,
       primarySwatch: _createMaterialColor(primaryColor),
       brightness: Brightness.dark,
+      primaryColor: primaryColor,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryColor,
         brightness: Brightness.dark,
       ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+      ),
+      textTheme: TextTheme(
+        headlineLarge: headlineLarge.copyWith(color: Colors.white),
+        headlineMedium: headlineMedium.copyWith(color: Colors.white),
+        headlineSmall: headlineSmall.copyWith(color: Colors.white),
+        titleLarge: titleLarge.copyWith(color: Colors.white),
+        titleMedium: titleMedium.copyWith(color: Colors.white),
+        bodyLarge: bodyLarge.copyWith(color: Colors.white),
+        bodyMedium: bodyMedium.copyWith(color: Colors.white),
+        bodySmall: bodySmall.copyWith(color: Colors.white70),
+        labelLarge: labelLarge.copyWith(color: Colors.white),
+      ),
+      cardColor: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.dark).surface,
+      dialogTheme: DialogThemeData(
+        backgroundColor: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.dark).surface,
+      ),
+      scaffoldBackgroundColor: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.dark).background,
       // ... other theme properties
     );
   }

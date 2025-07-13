@@ -127,19 +127,8 @@ class _AboutPageState extends State<AboutPage> {
             AppWidgets.spacing(height: AppTheme.spacingMedium),
 
             // Kurze Bio
-            Container(
+            AppWidgets.card(context: context,
               padding: const EdgeInsets.all(AppTheme.spacingMedium),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withAlpha(50),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
               child: Text(
                 personalInfo.shortBio,
                 style: AppTheme.bodyLarge.copyWith(
@@ -203,21 +192,11 @@ class _AboutPageState extends State<AboutPage> {
       _aboutRepository.getSkillLevelColorValue(skillCategory.level),
     );
 
-    return Container(
+    return AppWidgets.card(context: context,
       margin: const EdgeInsets.only(bottom: AppTheme.spacingLarge),
       padding: const EdgeInsets.all(AppTheme.spacingMedium),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(50),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-        border: Border(left: BorderSide(width: 4, color: skillLevelColor)),
-      ),
+      elevation: 2,
+      
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -274,16 +253,13 @@ class _AboutPageState extends State<AboutPage> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: AppTheme.surfaceColor,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(
-                            color: primaryColor.withAlpha(50),
-                          ),
+                          color: primaryColor.withAlpha(51),
+                          borderRadius: BorderRadius.circular(AppTheme.radiusSmall),
                         ),
                         child: Text(
                           skill,
-                          style: const TextStyle(
-                            fontSize: 12,
+                          style: AppTheme.bodySmall.copyWith(
+                            color: primaryColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -323,19 +299,8 @@ class _AboutPageState extends State<AboutPage> {
   /// Erstellt eine einzelne Interesse-Karte
   Widget _buildInterestCard(BuildContext context, Interest interest) {
     final primaryColor = Theme.of(context).primaryColor;
-    return Container(
+    return AppWidgets.card(context: context,
       padding: const EdgeInsets.all(AppTheme.spacingSmall), // Weniger Padding
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(50),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

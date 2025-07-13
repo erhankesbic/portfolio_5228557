@@ -123,7 +123,7 @@ class _WorkPageState extends State<WorkPage> {
                 });
                 _filterItems();
               },
-              backgroundColor: AppTheme.surfaceColor,
+              backgroundColor: Theme.of(context).cardColor,
               selectedColor: primaryColor.withAlpha(51),
             ),
           );
@@ -134,7 +134,7 @@ class _WorkPageState extends State<WorkPage> {
 
   /// Erstellt eine Projekt-Karte
   Widget _buildProjectCard(WorkItem item) {
-    return AppWidgets.card(
+    return AppWidgets.card(context: context,
       margin: const EdgeInsets.symmetric(
         horizontal: AppTheme.spacingMedium,
         vertical: AppTheme.spacingSmall,

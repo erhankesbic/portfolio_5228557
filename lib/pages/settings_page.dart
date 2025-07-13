@@ -71,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppWidgets.card(
+                  AppWidgets.card(context: context,
                     margin: const EdgeInsets.only(
                       bottom: AppTheme.spacingXLarge,
                     ),
@@ -115,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                   ),
-                  AppWidgets.card(
+                  AppWidgets.card(context: context,
                     margin: const EdgeInsets.only(
                       bottom: AppTheme.spacingXLarge,
                     ),

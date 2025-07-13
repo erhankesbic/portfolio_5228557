@@ -138,12 +138,14 @@ class AppWidgets {
   /// [margin] - Margin um die Card
   /// [elevation] - Schatten-Tiefe
   static Widget card({
+    required BuildContext context,
     required Widget child,
     EdgeInsetsGeometry? padding,
     EdgeInsetsGeometry? margin,
     double? elevation,
   }) {
     return Card(
+      color: Theme.of(context).cardColor,
       elevation: elevation ?? 2,
       margin: margin ?? const EdgeInsets.all(AppTheme.spacingSmall),
       shape: RoundedRectangleBorder(

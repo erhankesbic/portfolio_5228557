@@ -65,7 +65,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
       title: 'Profil bearbeiten',
       body: Padding(
         padding: const EdgeInsets.all(AppTheme.spacingXLarge),
-        child: AppWidgets.card(
+        child: AppWidgets.card(context: context,
           child: Padding(
             padding: const EdgeInsets.all(AppTheme.spacingLarge),
             child: Form(
